@@ -3,7 +3,7 @@
   module: 'Analyzing data with Microsoft Fabric'
 ---
 
-# Foundry Fabric Workshop – Analyzing data with Microsoft Fabric and Azure Content Understanding
+# Analyzing data with Microsoft Fabric and Azure Content Understanding
 
 ## Step 1: Set Up Content Understanding for Audio Analysis
 
