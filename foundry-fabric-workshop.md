@@ -22,43 +22,49 @@
 6. Wait for deployment to complete (typically 2-3 minutes)
 7. Once deployed, click **Go to resource**
 8. Navigate to **Resource Management > Keys and Endpoint** in the left menu
-9. Copy and save (you'll need this later):
+9. Copy and save (you will need these later):
    - **KEY 1** 
    - **Foundry > API endpoint** URL
 
 ### 1.2 Create Azure Key Vault (Secure Secrets)
 
-Store AI keys securely instead of hard‑coding them in notebooks.
-1. Create Key Vault
-   - In Azure Portal, search for ***Key Vault***
-   - Click ***Key Vaults***
-   - Click + ***Create***
+Azure Key Vault is used to store AI credentials securely instead of hard‑coding them in notebooks.
+
+#### Create Key Vault
+1. In Azure Portal, search for ***Key Vault***
+2. Select ***Key Vaults***
+3. Click + ***Create***
+4. Configure the vault:
    - Resource group: rg-security
    - Vault name: keyvault
-   - Region: same as Fabric
+   - Region: Same region as Fabric
    - Pricing tier: Standard
-Click ***Review*** + ***Create*** - ***Create***
+5. Click ***Review + ***Create***, then ***Create***
 
-2. Add Secrets 
-Inside the Key Vault:
-1. Click ***Secrets***
+#### Add Secrets to the Key Vault
+1. RIn the Key Vault left menu, select ***Secrets***.
 2. Click + ***Generate/Import***
-
-Create:
+3. Create the first secret:
    - Name: cukey
    - Value: Azure AI API Key
-
-Create another secret:
-   - Name: cuendpoint
+4. Click ***Create***
+5. Repeat + ***Generate/Import*** 
+   - Name: cuendendpoint
    - Value: Azure AI Endpoint URL
+6. Click ***Create***
 
-3. Grant Fabric Access
-   - Click Acccess policies
-   - Click + ***Create***
-   - Select ***Get*** and ***List*** for Secrets
-   - Select principal: Microsoft Fabric / Workspace identity
-   - Click ***Create***
-Output: Fabric can read secrets securely
+#### Grant Fabric Access to Key Vault
+1. In the Key Vault left menu, select ***Access policies***
+2. Click + ***Create***.
+3. Under ***Secret permissions, select:
+   - Get
+   - List
+4. Click ***Next***
+5. Select principal:
+   - ***Microsoft Fabric/Workspace managed identity
+6. Click ***Create***
+
+Result: Microsoft Fabric can securely retrieve secrets at runtime.
 
 ### 1.3 Access Content Understanding Studio
 1. Navigate to [Content Understanding Studio](https://contentunderstanding.ai.azure.com/)
@@ -297,22 +303,19 @@ The Fabric notebook is used to execute all sentiment analysis logic, including c
 
 ### 4.1 Create a Notebook
 
-1. Inside the same workspace, click **New item** select notebook
-2. Name your Notebook
-   - Notebook name: Notebook_Intermediate
-   - Location: FabricWorkspace-Intermediate
-3. Click Create
+1. Inside the same workspace, click ***+ New item*** select notebook
+2. Name your ***Notebook***
+   - Notebook name: AnalyzeCalls
+   - Location: FabricWorkspace
+3. Click ***Create***
 
 ### 4.2 Configure Secure Access to Azure AI Services
+The notebook retrieves credentials securely from Azure Key Vault.
+A Fabric notebook is composed of code cells only in this workshop.
 
-The notebook retrieves Microsoft Foundry credentials securely from Azure Key Vault to avoid hard‑coding secrets.
-This configuration allows the notebook to authenticate when calling the Content Understanding analyzer.
-
-1. A fabric notebook is composed of cells:
-   - Choose code for PySpark (Python) execution
-
-2. Click + code
-3. A new empty code cell appear
+To add a code cell:
+1. Click ***+ code*** 
+2. A new empty code cell appears
 
 ### 4.3 Notebook Implementation
 
