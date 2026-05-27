@@ -322,7 +322,7 @@ Below shows exactly how your code should be organized inside the notebook
 ```
 file_url = ""
 ```
-2. Click ***Add code cell 2*** and paste: Import Libraries & Initialize Variables
+2. Click ***Add code cell*** and paste: Import Libraries & Initialize Variables
 ```
 from notebookutils import credentials
 import requests
@@ -332,7 +332,7 @@ from datetime import datetime, timezone
 ```
  This cell sets up all required libraries.
 
-3. Click ***Add code cell 3*** Retrieve Secrets from Azure Key Vault
+3. Click ***Add code cell*** Retrieve Secrets from Azure Key Vault
 ```
 # Retrieve Secret from the Key Vault
 azure_ai_services_key = credentials.getSecret(
@@ -345,7 +345,7 @@ azure_ai_services_endpoint = credentials.getSecret(
     "cuendpoint"
 )
 ```
-5. Click ***Add Code Cell 4***: Analyzer Configuration
+5. Click ***Add Code Cell***: Analyzer Configuration
 ```
 ANALYZER_ID = "telavianalyzer"
 API_VERSION = "2024-10-01"
@@ -354,7 +354,7 @@ processed_rows = []
 utc_time = datetime.now(timezone.utc)
 ```
 
-6. Click ***Add Code Cell 5***: Submit File to Content Understanding Analyzer
+6. Click ***Add Code Cell***: Submit File to Content Understanding Analyzer
 ```
 def analyze_file(analyzer_id, file_url):
     url = f"{azure_ai_services_endpoint.rstrip('/')}/contentunderstanding/analyzers/{analyzer_id}:analyze"
@@ -379,7 +379,7 @@ def analyze_file(analyzer_id, file_url):
     return response.headers["Operation-Location"]
 ```
 
-7. Click ***Add Code Cell 6***: Poll Analyzer Status
+7. Click ***Add Code Cell***: Poll Analyzer Status
 ```
 def poll_status(operation_location):
     headers = {"Ocp-Apim-Subscription-Key": azure_ai_services_key}
@@ -388,7 +388,7 @@ def poll_status(operation_location):
     return response.json()
 ```
 
-8. Click ***Add Code Cell 7***: Run End-to-End Analysis
+8. Click ***Add Code Cell***: Run End-to-End Analysis
 ```
 operation_location = analyze_file(ANALYZER_ID, file_url)
 
@@ -418,7 +418,7 @@ while True:
     time.sleep(10)
 ```
 
-9. ***Add code Cell 8***: Create DataFrame and Display Output
+9. ***Add code Cell***: Create DataFrame and Display Output
 ```
 processed_rows = [
     {k: (v if v is not None else "no data") for k, v in row.asDict().items()}
@@ -429,7 +429,7 @@ dataframe = spark.createDataFrame(processed_rows)
 display(dataframe)
 ```
 
-10. Click ***Add Code Cell 9***: Save Results to Fabric Table
+10. Click ***Add Code Cell***: Save Results to Fabric Table
 ```
 dataframe.write.mode("append").saveAsTable("analyzed_calls")
 ```
@@ -443,6 +443,7 @@ This writes the sentiment analysis results into the Lakehouse table analyzed_cal
 2. Click ***Fabric***
 3. Click ***Lakehouse*** Checking tables > dbo > analyzed_calls
 4. Previewing and validate the data in the table
+   
    Verify:
    - Table exists
    - Columns are populated
@@ -453,10 +454,11 @@ This writes the sentiment analysis results into the Lakehouse table analyzed_cal
 
 Automatically trigger the Fabric pipeline when a new file is uploaded to Azure Blob Storage and pass the file URL to the notebook.
 
-1. Go Workspaces 
-2. Click the Pipeline
+1. Go to ***Workspaces***
+2. Click the ***Pipeline***
 3. Open the Settings panel at the bottom
 4. Under ***Base parameters***, click + ***New***
+
 Create:
    - Name: file_url
    - Type: String
