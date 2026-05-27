@@ -259,7 +259,7 @@ discovery). Every Lakehouse is backed by OneLake, which stores data in Delta Lak
 ---
 ## Step 4: Create a Fabric Notebook
 
-The Fabric notebook is used to execute all sentiment analysis logic, including calling Azure AI Foundry, parsing results, and saving outputs.
+The Fabric notebook is used to execute all sentiment analysis logic, including calling Microsoft Foundry, parsing results, and saving outputs.
 
 ### 4.1 Create a Notebook
 
@@ -271,7 +271,7 @@ The Fabric notebook is used to execute all sentiment analysis logic, including c
 
 ### 4.2 Configure Secure Access to Azure AI Services
 
-The notebook retrieves Azure AI Foundry credentials securely from Azure Key Vault to avoid hard‑coding secrets.
+The notebook retrieves Microsoft Foundry credentials securely from Azure Key Vault to avoid hard‑coding secrets.
 This configuration allows the notebook to authenticate when calling the Content Understanding analyzer.
 
 1. A fabric notebook is composed of cells. Each cell can be either:
