@@ -319,12 +319,12 @@ This configuration allows the notebook to authenticate when calling the Content 
 
 Below shows exactly how your code should be organized inside the notebook
 
-1. Click + Markdown and paste: 
-2. Code Cell 1: Import Libraries & Initialize Variables
-
+1. Click ***Add code cell*** and paste: 
 ```
 file_url = ""
-
+```
+2. Click ***Add code cell 2*** and paste: Import Libraries & Initialize Variables
+```
 from notebookutils import credentials
 import requests
 import time
@@ -333,9 +333,7 @@ from datetime import datetime, timezone
 ```
  This cell sets up all required libraries.
 
-3. Add code cell 
-4. Code Cell 2: Retrieve Secrets from Azure Key Vault
- 
+3. ***Add code cell 3*** Retrieve Secrets from Azure Key Vault
 ```
 # Retrieve Secret from the Key Vault
 azure_ai_services_key = credentials.getSecret(
@@ -348,7 +346,7 @@ azure_ai_services_endpoint = credentials.getSecret(
     "cuendpoint"
 )
 ```
-5. Code Cell 3: Analyzer Configuration
+5. ***Add Code Cell 4***: Analyzer Configuration
 ```
 ANALYZER_ID = "telavianalyzer"
 API_VERSION = "2024-10-01"
@@ -357,7 +355,7 @@ processed_rows = []
 utc_time = datetime.now(timezone.utc)
 ```
 
-6. Code Cell 5: Submit File to Content Understanding Analyzer
+6. ***Add Code Cell 5***: Submit File to Content Understanding Analyzer
 ```
 def analyze_file(analyzer_id, file_url):
     url = f"{azure_ai_services_endpoint.rstrip('/')}/contentunderstanding/analyzers/{analyzer_id}:analyze"
@@ -382,7 +380,7 @@ def analyze_file(analyzer_id, file_url):
     return response.headers["Operation-Location"]
 ```
 
-7. Code Cell 6: Poll Analyzer Status
+7. ***Add Code Cell 6***: Poll Analyzer Status
 ```
 def poll_status(operation_location):
     headers = {"Ocp-Apim-Subscription-Key": azure_ai_services_key}
@@ -391,7 +389,7 @@ def poll_status(operation_location):
     return response.json()
 ```
 
-8. Code Cell 7: Run End-to-End Analysis
+8. ***Add Code Cell 7***: Run End-to-End Analysis
 ```
 operation_location = analyze_file(ANALYZER_ID, file_url)
 
@@ -421,7 +419,7 @@ while True:
     time.sleep(10)
 ```
 
-9. Code Cell 8: Create DataFrame and Display Output
+9. ***Add code Cell 8***: Create DataFrame and Display Output
 ```
 processed_rows = [
     {k: (v if v is not None else "no data") for k, v in row.asDict().items()}
@@ -432,28 +430,39 @@ dataframe = spark.createDataFrame(processed_rows)
 display(dataframe)
 ```
 
-10. Code Cell 9: Save Results to Fabric Table
+10. ***Add Code Cell 9***: Save Results to Fabric Table
 ```
 dataframe.write.mode("append").saveAsTable("analyzed_calls")
 ```
 
+This writes the sentiment analysis results into the Lakehouse table analyzed_calls.
+
+
 ### Step 6: Verify the Output Table in the Lakehouse
 
-1. Navigate to Onelake
-2. Expanding OneLake
-3. Checking tables > dbo > analyzed_calls
-4. Previewing data
-5. Running SQL validation queries
+1. Go to ***Workspaces***
+2. Click ***Fabric***
+3. Click ***Lakehouse*** Checking tables > dbo > analyzed_calls
+4. Previewing and validate the data in the table
+   Verify:
+   - Table exists
+   - Columns are populated
+   - Rows reflect analyzed calls
+
 
 ### Step 7: Configure Pipeline with Blob Storage Trigger
 
 Automatically trigger the Fabric pipeline when a new file is uploaded to Azure Blob Storage and pass the file URL to the notebook.
 
-## 7.1 Create or Open the Fabric Pipeline
-1. Pipeline Name
-2. Activity: Notebook - AnalyzeCalls
+1. Go Workspaces 
+2. Click the Pipeline
+3. Open the Settings panel at the bottom
+4. Under ***Base parameters***, click + ***New***
+Create:
+   - Name: file_url
+   - Type: String
 
-This notebook activity will execute your sentiment analysis notebook.
+This parameter receives the blob file path from the trigger.
 
 ## 7.2 Define a Pipeline Parameter
 1. Click on the ***blank canvas*** not the notebook activity
@@ -470,24 +479,27 @@ This parameter will receive the blob file path from the trigger.
 Use this exact expression in the file_url parameter ***Value*** field:
 ```
 @concat(
-  'https://telavistorage.blob.core.windows.net/call-recordings/',
+  'https://storage.blob.core.windows.net/call-recordings/',
   pipeline().TriggerEvent.FileName
 )
 ```
 This builds the full public blob URL:
 ```
-https://telavistorage.blob.core.windows.net/call-recordings/<uploaded-file>
+https://storage.blob.core.windows.net/call-recordings/<uploaded-file>
 ```
 This syntax follows Fabric Data Factory expression rules.
 
-## Step 7.5 Map Pipeline Parameter to Notebook Parameter
+## Step 7.4 Map Pipeline Parameter to Notebook Parameter
 1. Click the ***AnalyzeCalls*** notebook activity
 2. Open ***Settings**
-
+3. Set:
+```
 file_url → @pipeline().parameters.file_url
+```
 This passes the blob URL into your notebook variable:
 ```
 file_url = ""
+```
 
 
 
