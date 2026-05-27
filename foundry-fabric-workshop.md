@@ -308,9 +308,8 @@ The Fabric notebook is used to execute all sentiment analysis logic, including c
 The notebook retrieves Microsoft Foundry credentials securely from Azure Key Vault to avoid hard‑coding secrets.
 This configuration allows the notebook to authenticate when calling the Content Understanding analyzer.
 
-1. A fabric notebook is composed of cells. Each cell can be either:
-   - Code for Python execution
-   - Markdown for explanation and step labels
+1. A fabric notebook is composed of cells:
+   - Choose code for PySpark (Python) execution
 
 2. Click + code
 3. A new empty code cell appear
@@ -333,7 +332,7 @@ from datetime import datetime, timezone
 ```
  This cell sets up all required libraries.
 
-3. ***Add code cell 3*** Retrieve Secrets from Azure Key Vault
+3. Click ***Add code cell 3*** Retrieve Secrets from Azure Key Vault
 ```
 # Retrieve Secret from the Key Vault
 azure_ai_services_key = credentials.getSecret(
@@ -346,7 +345,7 @@ azure_ai_services_endpoint = credentials.getSecret(
     "cuendpoint"
 )
 ```
-5. ***Add Code Cell 4***: Analyzer Configuration
+5. Click ***Add Code Cell 4***: Analyzer Configuration
 ```
 ANALYZER_ID = "telavianalyzer"
 API_VERSION = "2024-10-01"
@@ -355,7 +354,7 @@ processed_rows = []
 utc_time = datetime.now(timezone.utc)
 ```
 
-6. ***Add Code Cell 5***: Submit File to Content Understanding Analyzer
+6. Click ***Add Code Cell 5***: Submit File to Content Understanding Analyzer
 ```
 def analyze_file(analyzer_id, file_url):
     url = f"{azure_ai_services_endpoint.rstrip('/')}/contentunderstanding/analyzers/{analyzer_id}:analyze"
@@ -380,7 +379,7 @@ def analyze_file(analyzer_id, file_url):
     return response.headers["Operation-Location"]
 ```
 
-7. ***Add Code Cell 6***: Poll Analyzer Status
+7. Click ***Add Code Cell 6***: Poll Analyzer Status
 ```
 def poll_status(operation_location):
     headers = {"Ocp-Apim-Subscription-Key": azure_ai_services_key}
@@ -389,7 +388,7 @@ def poll_status(operation_location):
     return response.json()
 ```
 
-8. ***Add Code Cell 7***: Run End-to-End Analysis
+8. Click ***Add Code Cell 7***: Run End-to-End Analysis
 ```
 operation_location = analyze_file(ANALYZER_ID, file_url)
 
@@ -430,7 +429,7 @@ dataframe = spark.createDataFrame(processed_rows)
 display(dataframe)
 ```
 
-10. ***Add Code Cell 9***: Save Results to Fabric Table
+10. Click ***Add Code Cell 9***: Save Results to Fabric Table
 ```
 dataframe.write.mode("append").saveAsTable("analyzed_calls")
 ```
