@@ -296,6 +296,114 @@ import time
 from pyspark.sql import Row
 from datetime import datetime, timezone
 ```
+ This cell sets up all required libraries.
+
+2. Add code cell 
+3. Retrieve Secrets from Azure Key Vault
+
+Cell 2: 
+```
+# Retrieve Secret from the Key Vault
+azure_ai_services_key = credentials.getSecret(
+    "https://telavikeyvault1.vault.azure.net",
+    "cukey"
+)
+
+azure_ai_services_endpoint = credentials.getSecret(
+    "https://telavikeyvault1.vault.azure.net",
+    "cuendpoint"
+)
+```
+4. Code Cell 3: Analyzer Configuration
+```
+ANALYZER_ID = "telavianalyzer"
+API_VERSION = "2024-10-01"
+
+processed_rows = []
+utc_time = datetime.now(timezone.utc)
+```
+
+5. Code Cell 5: Submit File to Content Understanding Analyzer
+```
+def analyze_file(analyzer_id, file_url):
+    url = f"{azure_ai_services_endpoint.rstrip('/')}/contentunderstanding/analyzers/{analyzer_id}:analyze"
+    headers = {
+        "Ocp-Apim-Subscription-Key": azure_ai_services_key,
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "inputs": [{"url": file_url}]
+    }
+
+    response = requests.post(
+        url,
+        headers=headers,
+        params={"api-version": API_VERSION},
+        json=payload
+    )
+
+    if response.status_code not in (200, 202):
+        raise Exception(response.text)
+
+    return response.headers["Operation-Location"]
+```
+
+6. Code Cell 6: Poll Analyzer Status
+```
+def poll_status(operation_location):
+    headers = {"Ocp-Apim-Subscription-Key": azure_ai_services_key}
+    response = requests.get(operation_location, headers=headers)
+    response.raise_for_status()
+    return response.json()
+```
+
+7. Code Cell 7: Run End-to-End Analysis
+```
+operation_location = analyze_file(ANALYZER_ID, file_url)
+
+while True:
+    result = poll_status(operation_location)
+    status = result.get("status")
+
+    if status == "Succeeded":
+        fields = result["result"]["contents"][0]["fields"]
+
+        processed_rows.append(Row(
+            Customername=fields.get("customername", {}).get("valueString"),
+            Agentname=fields.get("agentname", {}).get("valueString"),
+            Callsentiment=fields.get("callsentiment", {}).get("valueString"),
+            Product=fields.get("product", {}).get("valueString"),
+            Resolution=fields.get("resolution", {}).get("valueString"),
+            Emotion=fields.get("emotion", {}).get("valueString"),
+            Callcategory=fields.get("callcategory", {}).get("valueString"),
+            DateTime=utc_time,
+            File=file_url
+        ))
+        break
+
+    elif status in ["Failed", "Cancelled"]:
+        raise Exception(f"Analyzer failed: {status}")
+
+    time.sleep(10)
+```
+
+8. Code Cell 8: Create DataFrame and Display Output
+```
+processed_rows = [
+    {k: (v if v is not None else "no data") for k, v in row.asDict().items()}
+    for row in processed_rows
+]
+
+dataframe = spark.createDataFrame(processed_rows)
+display(dataframe)
+```
+
+9. Code Cell 9: Save Results to Fabric Table
+```
+dataframe.write.mode("append").saveAsTable("analyzed_calls")
+```
+
+
 
 
 
