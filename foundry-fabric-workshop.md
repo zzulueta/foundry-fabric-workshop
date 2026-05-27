@@ -201,7 +201,7 @@ This capacity provides the compute resources for all Fabric workloads.
 
 ### 2.2 Create a Fabric Workspace
 
-1. Sign in to the [Fabric portal](https://app.fabric.microsoft.com), select **Workspaces** from the left navigation pane.
+1. Go to [Fabric portal](https://app.fabric.microsoft.com), select **Workspaces** from the left navigation pane.
 
 2. Select **+ New workspace**.
 
@@ -257,5 +257,46 @@ discovery). Every Lakehouse is backed by OneLake, which stores data in Delta Lak
    to external storage accounts (ADLS Gen2, AWS S3, etc.) without copying data.
 
 ---
+## Step 4: Create a Fabric Notebook
+
+The Fabric notebook is used to execute all sentiment analysis logic, including calling Azure AI Foundry, parsing results, and saving outputs.
+
+### 4.1 Create a Notebook
+
+1. Inside the same workspace, click ***New item select notebook
+2. Name your Notebook
+   - Notebook name: Notebook_Intermediate
+   - Location: FabricWorkspace-Intermediate
+3. Click Create
+
+### 4.2 Configure Secure Access to Azure AI Services
+
+The notebook retrieves Azure AI Foundry credentials securely from Azure Key Vault to avoid hard‑coding secrets.
+This configuration allows the notebook to authenticate when calling the Content Understanding analyzer.
+
+1. A fabric notebook is composed of cells. Each cell can be either:
+   - code for Python execution
+   - Markdown for explanation and step labels
+
+2. Click + code
+3. A new empty code cell appear
+
+### 4.3 Notebook Implementation
+
+Below shows exactly how your code should be organized inside the notebook
+
+1. Click + Markdown and paste: 
+Cell 1 – Code Cell: Import Libraries & Initialize Variables
+
+file_url = ""
+
+from notebookutils import credentials
+import requests
+import time
+from pyspark.sql import Row
+from datetime import datetime, timezone
+``
+
+
 
 
