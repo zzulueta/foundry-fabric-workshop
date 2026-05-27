@@ -437,14 +437,14 @@ display(dataframe)
 dataframe.write.mode("append").saveAsTable("analyzed_calls")
 ```
 
-This writes the sentiment analysis results into the Lakehouse table analyzed_calls.
+This writes the sentiment analysis results into the Lakehouse table analyzedcalls.
 
 
 ## Step 6: Verify the Output Table in the Lakehouse
 
 1. Go to ***Workspaces***
 2. Click ***Fabric***
-3. Click ***Lakehouse*** Checking tables > dbo > analyzed_calls
+3. Click ***Lakehouse*** dbo > tables > analyzedcalls
 4. Previewing and validate the data in the table
    
    Verify:
