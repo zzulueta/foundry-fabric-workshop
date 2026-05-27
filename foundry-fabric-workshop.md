@@ -8,7 +8,7 @@
 ## Step 1: Set Up Content Understanding for Audio Analysis
 
 ### 1.1 Create a Microsoft Foundry Resource (for Content Understanding)
-1. Go to Azure Portal, click **Create a resource**....
+1. Go to https://portal.azure.com click **Create a resource**....
 
 2. Search for **Microsoft Foundry** and select it
 3. Click **Create**
@@ -26,12 +26,46 @@
    - **KEY 1** 
    - **Foundry > API endpoint** URL
 
-### 1.2 Access Content Understanding Studio
+### 1.2 Create Azure Key Vault (Secure Secrets)
+
+Store AI keys securely instead of hard‑coding them in notebooks.
+1. Create Key Vault
+   - In Azure Portal, search for ***Key Vault***
+   - Click ***Key Vaults***
+   - Click + ***Create***
+   - Resource group: rg-security
+   - Vault name: keyvault
+   - Region: same as Fabric
+   - Pricing tier: Standard
+Click ***Review*** + ***Create*** - ***Create***
+
+2. Add Secrets 
+Inside the Key Vault:
+1. Click ***Secrets***
+2. Click + ***Generate/Import***
+
+Create:
+   - Name: cukey
+   - Value: Azure AI API Key
+
+Create another secret:
+   - Name: cuendpoint
+   - Value: Azure AI Endpoint URL
+
+3. Grant Fabric Access
+   - Click Acccess policies
+   - Click + ***Create***
+   - Select ***Get*** and ***List*** for Secrets
+   - Select principal: Microsoft Fabric / Workspace identity
+   - Click ***Create***
+Output: Fabric can read secrets securely
+
+### 1.3 Access Content Understanding Studio
 1. Navigate to [Content Understanding Studio](https://contentunderstanding.ai.azure.com/)
 2. Sign in with your Azure account credentials
 3. Select **Explore Content Understanding**
 
-### 1.3 Select Your Resource
+### 1.4 Select Your Resource
 1. Click on the settings icon near your profile icon in the top right
 2. Select **Add resource**
 3. Configure your resource:
@@ -43,7 +77,7 @@
 4. Click **Save** to confirm your resource selection
 5. Verify that models are deployed successfully for the selected resource
 
-### 1.4 Create a New Content Understanding Project
+### 1.5 Create a New Content Understanding Project
 1. Select **Build**
 2. Click **+ Create**
 3. Configure the project:
@@ -59,13 +93,13 @@
    - **Model for analysis:** Select the default model
 5. Click **Create**
 
-### 1.5 Upload Call Recordings
+### 1.6 Upload Call Recordings
 1. In your new project, click **Browse for files**
 2. Upload one of the call recordings from the `Recordings` folder
 3. Select Audio Analysis
 4. Click **Save**
 
-### 1.6 Define Schema for Extraction
+### 1.7 Define Schema for Extraction
 You'll now define what information to extract from the call recordings.
 
 1. In your project, navigate to **Schema**
@@ -122,7 +156,7 @@ You'll now define what information to extract from the call recordings.
 
 4. Click **Save**
 
-### 1.7 Process Audio Files and Review Results
+### 1.8 Process Audio Files and Review Results
 1. Click **Run analysis** at the upper left.
 2. Wait for the processing to complete. This may take several minutes depending on the length of the audio and the complexity of the analysis.
 3. Once processing is complete, you can review the extracted information for the call recording in the **Fields** tab.
@@ -130,12 +164,12 @@ You'll now define what information to extract from the call recordings.
 5. Select the **Result** tab to see the structured JSON output of the analysis, which includes all extracted fields and their values.
 ---
 
-### 1.8 Analyze Remaining Recordings
+### 1.9 Analyze Remaining Recordings
 1. Select **Browse for files** again to upload the next call recording from your local machine
 2. Click **Run analysis** 
 3. Review extracted information for each call and the JSON output.
 
-### 1.9 Build the Analyzer
+### 1.10 Build the Analyzer
 1. Select **Build analyzer** from the top beside **Run analysis**
 2. Configure the analyzer:
    - **Name:** `callanalyzer`
