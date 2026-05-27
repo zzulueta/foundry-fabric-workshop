@@ -437,7 +437,7 @@ dataframe.write.mode("append").saveAsTable("analyzed_calls")
 This writes the sentiment analysis results into the Lakehouse table analyzed_calls.
 
 
-### Step 6: Verify the Output Table in the Lakehouse
+## Step 6: Verify the Output Table in the Lakehouse
 
 1. Go to ***Workspaces***
 2. Click ***Fabric***
@@ -450,7 +450,7 @@ This writes the sentiment analysis results into the Lakehouse table analyzed_cal
    - Rows reflect analyzed calls
 
 
-### Step 7: Configure Pipeline with Blob Storage Trigger
+## Step 7: Configure Pipeline with Blob Storage Trigger
 
 Automatically trigger the Fabric pipeline when a new file is uploaded to Azure Blob Storage and pass the file URL to the notebook.
 
@@ -465,7 +465,7 @@ Create:
 
 This parameter receives the blob file path from the trigger.
 
-## 7.2 Define a Pipeline Parameter
+### 7.2 Define a Pipeline Parameter
 1. Click on the ***blank canvas*** not the notebook activity
 2. Open the ***Settings*** panel at the bottom
 3. Under ***Base parameters***, click + ***New***
@@ -476,7 +476,7 @@ Create:
 
 This parameter will receive the blob file path from the trigger.
 
-## Step 7.3: Correct concat() Expression for Blob File URL
+### Step 7.3: Correct concat() Expression for Blob File URL
 1. Use this exact expression in the file_url parameter ***Value*** field:
 ```
 @concat(
@@ -490,7 +490,7 @@ https://storage.blob.core.windows.net/call-recordings/<uploaded-file>
 ```
 This syntax follows Fabric Data Factory expression rules.
 
-## Step 7.4 Map Pipeline Parameter to Notebook Parameter
+### Step 7.4 Map Pipeline Parameter to Notebook Parameter
 1. Click the ***AnalyzeCalls*** notebook activity
 2. Open ***Settings**
 3. Set:
