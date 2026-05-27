@@ -8,7 +8,7 @@
 ## Step 1: Set Up Content Understanding for Audio Analysis
 
 ### 1.1 Create a Microsoft Foundry Resource (for Content Understanding)
-1. In the Azure Portal, click **Create a resource**
+1. Go to Azure Portal, click **Create a resource**
 2. Search for **Microsoft Foundry** and select it
 3. Click **Create**
 4. Configure the resource:
