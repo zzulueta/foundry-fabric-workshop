@@ -263,7 +263,7 @@ The Fabric notebook is used to execute all sentiment analysis logic, including c
 
 ### 4.1 Create a Notebook
 
-1. Inside the same workspace, click ***New item select notebook
+1. Inside the same workspace, click **New item** select notebook
 2. Name your Notebook
    - Notebook name: Notebook_Intermediate
    - Location: FabricWorkspace-Intermediate
