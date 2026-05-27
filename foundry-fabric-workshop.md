@@ -403,6 +403,59 @@ display(dataframe)
 dataframe.write.mode("append").saveAsTable("analyzed_calls")
 ```
 
+### Step 6: Verify the Output Table in the Lakehouse
+
+1. Navigate to Onelake
+2. Expanding OneLake
+3. Checking tables > dbo > analyzed_calls
+4. Previewing data
+5. Running SQL validation queries
+
+### Step 7: Configure Pipeline with Blob Storage Trigger
+
+Automatically trigger the Fabric pipeline when a new file is uploaded to Azure Blob Storage and pass the file URL to the notebook.
+
+## 7.1 Create or Open the Fabric Pipeline
+1. Pipeline Name
+2. Activity: Notebook - AnalyzeCalls
+
+This notebook activity will execute your sentiment analysis notebook.
+
+## 7.2 Define a Pipeline Parameter
+1. Click on the ***blank canvas*** not the notebook activity
+2. Open the ***Settings*** panel at the bottom
+3. Under ***Base parameters***, click + ***New***
+
+Create:
+   - Name file_url
+   - Type: String
+
+This parameter will receive the blob file path from the trigger.
+
+## Step 7.3: Correct concat() Expression for Blob File URL
+Use this exact expression in the file_url parameter ***Value*** field:
+```
+@concat(
+  'https://telavistorage.blob.core.windows.net/call-recordings/',
+  pipeline().TriggerEvent.FileName
+)
+```
+This builds the full public blob URL:
+```
+https://telavistorage.blob.core.windows.net/call-recordings/<uploaded-file>
+```
+This syntax follows Fabric Data Factory expression rules.
+
+## Step 7.5 Map Pipeline Parameter to Notebook Parameter
+1. Click the ***AnalyzeCalls*** notebook activity
+2. Open ***Settings**
+
+file_url → @pipeline().parameters.file_url
+This passes the blob URL into your notebook variable:
+```
+file_url = ""
+
+
 
 
 
