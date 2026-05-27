@@ -275,7 +275,7 @@ The notebook retrieves Microsoft Foundry credentials securely from Azure Key Vau
 This configuration allows the notebook to authenticate when calling the Content Understanding analyzer.
 
 1. A fabric notebook is composed of cells. Each cell can be either:
-   - code for Python execution
+   - Code for Python execution
    - Markdown for explanation and step labels
 
 2. Click + code
