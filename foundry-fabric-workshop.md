@@ -287,7 +287,7 @@ Below shows exactly how your code should be organized inside the notebook
 
 1. Click + Markdown and paste: 
 Cell 1 – Code Cell: Import Libraries & Initialize Variables
-
+```
 file_url = ""
 
 from notebookutils import credentials
@@ -295,7 +295,7 @@ import requests
 import time
 from pyspark.sql import Row
 from datetime import datetime, timezone
-``
+```
 
 
 
