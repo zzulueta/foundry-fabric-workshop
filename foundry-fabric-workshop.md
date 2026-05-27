@@ -418,7 +418,7 @@ while True:
     time.sleep(10)
 ```
 
-9. ***Add code Cell***: Create DataFrame and Display Output
+9. Click ***Add code Cell***: Create DataFrame and Display Output
 ```
 processed_rows = [
     {k: (v if v is not None else "no data") for k, v in row.asDict().items()}
@@ -477,14 +477,14 @@ Create:
 This parameter will receive the blob file path from the trigger.
 
 ## Step 7.3: Correct concat() Expression for Blob File URL
-Use this exact expression in the file_url parameter ***Value*** field:
+1. Use this exact expression in the file_url parameter ***Value*** field:
 ```
 @concat(
   'https://storage.blob.core.windows.net/call-recordings/',
   pipeline().TriggerEvent.FileName
 )
 ```
-This builds the full public blob URL:
+2. This builds the full public blob URL:
 ```
 https://storage.blob.core.windows.net/call-recordings/<uploaded-file>
 ```
