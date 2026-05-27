@@ -300,9 +300,8 @@ from datetime import datetime, timezone
  This cell sets up all required libraries.
 
 3. Add code cell 
-4. Retrieve Secrets from Azure Key Vault
-
-Cell 2: 
+4. Code Cell 2: Retrieve Secrets from Azure Key Vault
+ 
 ```
 # Retrieve Secret from the Key Vault
 azure_ai_services_key = credentials.getSecret(
