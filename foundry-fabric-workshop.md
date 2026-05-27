@@ -286,7 +286,8 @@ This configuration allows the notebook to authenticate when calling the Content 
 Below shows exactly how your code should be organized inside the notebook
 
 1. Click + Markdown and paste: 
-Cell 1 – Code Cell: Import Libraries & Initialize Variables
+2. Code Cell 1: Import Libraries & Initialize Variables
+
 ```
 file_url = ""
 
@@ -298,8 +299,8 @@ from datetime import datetime, timezone
 ```
  This cell sets up all required libraries.
 
-2. Add code cell 
-3. Retrieve Secrets from Azure Key Vault
+3. Add code cell 
+4. Retrieve Secrets from Azure Key Vault
 
 Cell 2: 
 ```
@@ -314,7 +315,7 @@ azure_ai_services_endpoint = credentials.getSecret(
     "cuendpoint"
 )
 ```
-4. Code Cell 3: Analyzer Configuration
+5. Code Cell 3: Analyzer Configuration
 ```
 ANALYZER_ID = "telavianalyzer"
 API_VERSION = "2024-10-01"
@@ -323,7 +324,7 @@ processed_rows = []
 utc_time = datetime.now(timezone.utc)
 ```
 
-5. Code Cell 5: Submit File to Content Understanding Analyzer
+6. Code Cell 5: Submit File to Content Understanding Analyzer
 ```
 def analyze_file(analyzer_id, file_url):
     url = f"{azure_ai_services_endpoint.rstrip('/')}/contentunderstanding/analyzers/{analyzer_id}:analyze"
@@ -348,7 +349,7 @@ def analyze_file(analyzer_id, file_url):
     return response.headers["Operation-Location"]
 ```
 
-6. Code Cell 6: Poll Analyzer Status
+7. Code Cell 6: Poll Analyzer Status
 ```
 def poll_status(operation_location):
     headers = {"Ocp-Apim-Subscription-Key": azure_ai_services_key}
@@ -357,7 +358,7 @@ def poll_status(operation_location):
     return response.json()
 ```
 
-7. Code Cell 7: Run End-to-End Analysis
+8. Code Cell 7: Run End-to-End Analysis
 ```
 operation_location = analyze_file(ANALYZER_ID, file_url)
 
@@ -387,7 +388,7 @@ while True:
     time.sleep(10)
 ```
 
-8. Code Cell 8: Create DataFrame and Display Output
+9. Code Cell 8: Create DataFrame and Display Output
 ```
 processed_rows = [
     {k: (v if v is not None else "no data") for k, v in row.asDict().items()}
@@ -398,7 +399,7 @@ dataframe = spark.createDataFrame(processed_rows)
 display(dataframe)
 ```
 
-9. Code Cell 9: Save Results to Fabric Table
+10. Code Cell 9: Save Results to Fabric Table
 ```
 dataframe.write.mode("append").saveAsTable("analyzed_calls")
 ```
