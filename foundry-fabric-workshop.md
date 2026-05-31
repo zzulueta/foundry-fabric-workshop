@@ -550,3 +550,52 @@ The Data Agent now automatically has access to all Lakehouse tables that the cur
    ```
 3. Select publish
 
+## Step 6 Power BI Report from Sentiment Analysis Results
+
+6.1 Create a Power BI Semantic Model
+1. In **Microsoft Fabric,** open **FabricWorkspace‑Intermediate.**
+2. Select **LakehouseIntermediate**
+3. In the Lakehouse ribbon, select **SQL analytics endpoint.**
+4. In the SQL analytics endpoint view, select **New semantic model.**
+
+Configure the semantic model:
+| Setting | Value |
+   | --- | --- |
+   | Name | `SentimentSemanticModel` |
+   | Workspace | `FabricWorkspace-Intermediate` |
+   | Tables | `Select:` |
+      - analyzed_calls
+5. Select **Confirm**
+
+### 6.1 Open the Semantic Model
+
+1. Return to **FabricWorkspace-Intermediate
+2. Locate **SentimentSemanticModel
+3. Select the semantic model to open it
+4. With SentimentSemanticModel open, select **Open** tab in data pane
+5. The Power BI report designer opens in your browser
+
+### 6.2 Build the Sentiment Analysis Report
+Create a Sentiment Distribution Visual
+1. In the **Data** pane, expand analyzed_calls
+2. Drag **Callsentiment** to the canvas
+3. Drag **Customername** (or any field) to **Values**
+4. Change aggregation to **Count**
+5. Select a **Column chart** or **Pie chart** visualization
+
+Create a Time-Based Sentiment Trend 
+1. Add a new visual
+2. Drag **DateTime** to the **X-axis**
+3. Drag **Callsentiment** to **Legend**
+4. Drag **Customername** to **Values** (Count)
+5. Select a **Line chart**
+6. Select **Save**
+7. Enter report name. 
+
+
+
+
+
+
+
+
