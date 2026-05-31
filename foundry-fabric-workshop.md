@@ -448,15 +448,21 @@ Click the play button to run the cell. Wait for the cell to complete approximate
 
 ### 4.3 Verify the output table in the Lakehouse
 
-1. Go to **Workspaces**
-2. Click **Fabric**
-3. Click **Lakehouse** dbo > tables > analyzedcalls
-4. Previewing and validate the data in the table
-   
-   Verify:
+1. Go to **Workspaces** 
+2. Select your **Lakehouse** 
+3. Navigate to Tables then select the ellipsis (...) then click Refresh
+4. Expand the Tables > dbo > analyzed_calls table
+5.Verify:
    - Table exists
    - Columns are populated
    - Rows reflect analyzed calls
+
+> **Notes:**
+> 1. We manually ran the notebook to analyze the calls. In a production setting, a Fabric Pipeline 
+> will automate the process whenever a new recording comes into the Azure Blob Storage Container.
+> 2. The endpoint and key values are currently hardcoded in the Notebook. In a production setting,
+> you will need to use Azure Key Vault to protect these values.
+> We did not include the Pipeline and Key Vault in this lab in the interest of time.
 
 ## Step 5: Create a Data Agent
 
