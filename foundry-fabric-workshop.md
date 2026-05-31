@@ -563,9 +563,8 @@ Configure the semantic model:
    | --- | --- |
    | Name | `SentimentSemanticModel` |
    | Workspace | `FabricWorkspace-Intermediate` |
-   | Tables | `Select:` |
-      - analyzed_calls
-5. Select **Confirm**
+5. Select analyzed_calls
+6. Select **Confirm**
 
 ### 6.1 Open the Semantic Model
 
