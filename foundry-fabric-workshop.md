@@ -283,6 +283,9 @@ The Fabric notebook is used to execute all sentiment analysis logic, including c
    - Notebook name: AnalyzeCalls
    - Location: FabricWorkspace-Workshop
 3. Click **Create**
+4. In the **Data items** tab under Explorer, select **Add data items > From OneLake Catalog** 
+5. Then select your Lakehouse
+6. Then click **Add**
 
 ### 4.2 Notebook Implementation
 1. Click **+ Code** and paste the following Python code:
@@ -290,127 +293,158 @@ The Fabric notebook is used to execute all sentiment analysis logic, including c
 Replace the endpoint, key, and file_path form the values you saved in your notepad
 ```
 import requests
+from datetime import datetime, timezone
+from pyspark.sql import Row
+import time
+ 
  
 # Set variables
-endpoint = "<your-content-understanding-endpoint>"
-key = "<your-content-understanding-key>"
+endpoint = "https://ai-content-ziggyz.services.ai.azure.com/"
+key = "YOUR_API_KEY_HERE"
 analyzer_id = "callanalyzer"
-file_path = "<path-to-your-call-recording.wav>"
-```
-2. Click **Add code cell** and paste: Import Libraries & Initialize Variables
-```
-from notebookutils import credentials
-import requests
-import time
-from pyspark.sql import Row
-from datetime import datetime, timezone
-```
- This cell sets up all required libraries.
-
-3. Click **Add code cell** Retrieve Secrets from Azure Key Vault
-```
-# Retrieve Secret from the Key Vault
-azure_ai_services_key = credentials.getSecret(
-    "https://keyvault1.vault.azure.net",
-    "cukey"
-)
-
-azure_ai_services_endpoint = credentials.getSecret(
-    "https://keyvault1.vault.azure.net",
-    "cuendpoint"
-)
-```
-5. Click **Add Code Cell**: Analyzer Configuration
-```
-ANALYZER_ID = "analyzer"
-API_VERSION = "2024-10-01"
-
-processed_rows = []
+file_path = "https://aistrziggy.blob.core.windows.net/callrecordings/callcenter1.mp3"
+api_version = "2025-11-01"
 utc_time = datetime.now(timezone.utc)
+processed_rows = []
 ```
+Click the play button to run the cell.
 
-6. Click **Add Code Cell**: Submit File to Content Understanding Analyzer
+2. Click **+ Code** and paste the following Python code:
 ```
 def analyze_file(analyzer_id, file_url):
-    url = f"{azure_ai_services_endpoint.rstrip('/')}/contentunderstanding/analyzers/{analyzer_id}:analyze"
+    """
+    Submit a file for analysis using Azure Content Understanding API.
+   
+    Args:
+        analyzer_id (str): The ID of the analyzer to use (e.g., "callanalyzer")
+        file_url (str): The URL or path to the file to be analyzed
+       
+    Returns:
+        str: The Operation-Location URL for polling the analysis status
+       
+    Raises:
+        Exception: If the API returns a non-success status code (not 200 or 202)
+    """
+    # Construct the API endpoint URL, ensuring no double slashes
+    url = f"{endpoint.rstrip('/')}/contentunderstanding/analyzers/{analyzer_id}:analyze"
+   
+    # Set up authentication and content type headers
     headers = {
-        "Ocp-Apim-Subscription-Key": azure_ai_services_key,
+        "Ocp-Apim-Subscription-Key": key,
         "Content-Type": "application/json"
     }
+   
+    # Prepare the request payload with the file URL
     payload = {
-        "inputs": [{"url": file_url}]
+        "inputs": [{"url": file_path}]
     }
-
+ 
+    # Submit the analysis request with API version as query parameter
     response = requests.post(
         url,
         headers=headers,
-        params={"api-version": API_VERSION},
+        params={"api-version": api_version},
         json=payload
     )
-
+ 
+    # Check if the request was successful (200 OK or 202 Accepted)
     if response.status_code not in (200, 202):
         raise Exception(response.text)
-
+ 
+    # Return the operation location URL for status polling
     return response.headers["Operation-Location"]
-```
-
-7. Click **Add Code Cell**: Poll Analyzer Status
-```
+ 
+ 
 def poll_status(operation_location):
-    headers = {"Ocp-Apim-Subscription-Key": azure_ai_services_key}
+    """
+    Check the status of a content analysis operation.
+   
+    Args:
+        operation_location (str): The Operation-Location URL returned from analyze_file
+       
+    Returns:
+        dict: JSON response containing the operation status and results
+       
+    Raises:
+        requests.exceptions.HTTPError: If the request fails
+    """
+    # Set up authentication header for the status check
+    headers = {"Ocp-Apim-Subscription-Key": key}
+   
+    # Query the operation location endpoint
     response = requests.get(operation_location, headers=headers)
+   
+    # Raise an exception if the request failed
     response.raise_for_status()
+   
+    # Return the status information as a dictionary
     return response.json()
 ```
+ Click the play button to run the cell.
 
-8. Click **Add Code Cell**: Run End-to-End Analysis
+3. Click **+ Code** and paste the following Python code:
 ```
-operation_location = analyze_file(ANALYZER_ID, file_url)
-
+# Submit the file for analysis and get the operation location URL for polling
+operation_location = analyze_file(analyzer_id, file_path)
+ 
+# Poll the analysis operation until it completes (succeeds or fails)
 while True:
+    # Check the current status of the analysis operation
     result = poll_status(operation_location)
     status = result.get("status")
-
+ 
+    # If analysis completed successfully, extract and process the results
     if status == "Succeeded":
+        # Navigate to the fields in the analysis result
         fields = result["result"]["contents"][0]["fields"]
-
+ 
+        # Create a Row object with extracted field values
+        # Use .get() with default empty dict to safely handle missing fields
         processed_rows.append(Row(
-            Customername=fields.get("customername", {}).get("valueString"),
-            Agentname=fields.get("agentname", {}).get("valueString"),
-            Callsentiment=fields.get("callsentiment", {}).get("valueString"),
-            Product=fields.get("product", {}).get("valueString"),
-            Resolution=fields.get("resolution", {}).get("valueString"),
-            Emotion=fields.get("emotion", {}).get("valueString"),
-            Callcategory=fields.get("callcategory", {}).get("valueString"),
+            Customername=fields.get("CustomerName", {}).get("valueString"),
+            Agentname=fields.get("AgentName", {}).get("valueString"),
+            Callsummary=fields.get("CallSummary", {}).get("valueString"),
+            Callresolution=fields.get("CallResolution", {}).get("valueString"),
+            Productname=fields.get("ProductName", {}).get("valueString"),
+            Callsentiment=fields.get("CallSentiment", {}).get("valueString"),  # Note: Using CallSummary, may be a bug
             DateTime=utc_time,
-            File=file_url
+            File=file_path
         ))
+        # Exit the polling loop after successful processing
         break
-
+ 
+    # If the analysis failed or was cancelled, raise an exception
     elif status in ["Failed", "Cancelled"]:
         raise Exception(f"Analyzer failed: {status}")
-
+ 
+    # Wait 10 seconds before checking the status again to avoid overwhelming the API
     time.sleep(10)
 ```
+Click the play button to run the cell. Wait for the cell to complete approximately 30-60 seconds
 
-9. Click **Add code Cell**: Create DataFrame and Display Output
+4. Click **+ Code** and paste the following Python code:
 ```
+# Convert Row objects to dictionaries and replace None values with "no data"
+# This ensures all fields have displayable values in the final output
 processed_rows = [
     {k: (v if v is not None else "no data") for k, v in row.asDict().items()}
     for row in processed_rows
 ]
-
+ 
+# Create a Spark DataFrame from the processed row dictionaries
 dataframe = spark.createDataFrame(processed_rows)
+ 
+# Display the DataFrame (typically used in Databricks/Jupyter notebooks)
 display(dataframe)
+ 
 ```
+Click the play button to run the cell.
 
-10. Click **Add Code Cell**: Save Results to Fabric Table
+5. Click **+ Code** and paste the following Python code:
 ```
 dataframe.write.mode("append").saveAsTable("analyzed_calls")
 ```
-
-This writes the sentiment analysis results into the Lakehouse table analyzedcalls.
-
+Click the play button to run the cell. Wait for the cell to complete approximately 10-20 seconds
 
 ## Step 6: Verify the Output Table in the Lakehouse
 
