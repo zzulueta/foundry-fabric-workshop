@@ -30,9 +30,9 @@
 The Azure Storage account is used to store call recording files and to trigger the Fabric pipeline when new files are uploaded.
 Azure Blob Storage provides scalable, cost‑effective storage for unstructured data such as audio files.
 
-1. In the ***Azure portal***, use the ***top search bar***
-2. Type ***Storage accounts*** and select ***Storage accounts.***
-4. Select ***+ create***
+1. In the **Azure portal**, use the **top search bar**
+2. Type **Storage accounts** and select **Storage accounts.**
+4. Select **+ create**
 5. Configure the storage account with the following settings:
    - **Subscription:** Select your Azure subscription
    - **Resource group name:** rg-documents
@@ -42,9 +42,9 @@ Azure Blob Storage provides scalable, cost‑effective storage for unstructured 
    - **Redundancy:** Locally-redundant storafe (LRS)
 
 6. Leave ramaining options as default
-7. Select ***Review + Create***
-8. Select ***Create.***
-Wait for deployment to complete, then select ***Go to resource.***
+7. Select **Review + Create**
+8. Select **Create.**
+Wait for deployment to complete, then select **Go to resource.**
 
 ### 1.3 Access Content Understanding Studio
 1. Navigate to [Content Understanding Studio](https://contentunderstanding.ai.azure.com/)
@@ -283,29 +283,29 @@ The Fabric notebook is used to execute all sentiment analysis logic, including c
 
 ### 4.1 Create a Notebook
 
-1. Inside the same workspace, click ***+ New item*** select notebook
-2. Name your ***Notebook***
+1. Inside the same workspace, click **+ New item** select notebook
+2. Name your **Notebook**
    - Notebook name: AnalyzeCalls
    - Location: FabricWorkspace
-3. Click ***Create***
+3. Click **Create**
 
 ### 4.2 Configure Secure Access to Azure AI Services
 The notebook retrieves credentials securely from Azure Key Vault.
 A Fabric notebook is composed of code cells only in this workshop.
 
 To add a code cell:
-1. Click ***+ code*** 
+1. Click **+ code**
 2. A new empty code cell appears
 
 ### 4.3 Notebook Implementation
 
 Below shows exactly how your code should be organized inside the notebook
 
-1. Click ***Add code cell*** and paste: 
+1. Click **Add code cell** and paste: 
 ```
 file_url = ""
 ```
-2. Click ***Add code cell*** and paste: Import Libraries & Initialize Variables
+2. Click **Add code cell** and paste: Import Libraries & Initialize Variables
 ```
 from notebookutils import credentials
 import requests
@@ -315,7 +315,7 @@ from datetime import datetime, timezone
 ```
  This cell sets up all required libraries.
 
-3. Click ***Add code cell*** Retrieve Secrets from Azure Key Vault
+3. Click **Add code cell** Retrieve Secrets from Azure Key Vault
 ```
 # Retrieve Secret from the Key Vault
 azure_ai_services_key = credentials.getSecret(
@@ -328,7 +328,7 @@ azure_ai_services_endpoint = credentials.getSecret(
     "cuendpoint"
 )
 ```
-5. Click ***Add Code Cell***: Analyzer Configuration
+5. Click **Add Code Cell**: Analyzer Configuration
 ```
 ANALYZER_ID = "analyzer"
 API_VERSION = "2024-10-01"
@@ -337,7 +337,7 @@ processed_rows = []
 utc_time = datetime.now(timezone.utc)
 ```
 
-6. Click ***Add Code Cell***: Submit File to Content Understanding Analyzer
+6. Click **Add Code Cell**: Submit File to Content Understanding Analyzer
 ```
 def analyze_file(analyzer_id, file_url):
     url = f"{azure_ai_services_endpoint.rstrip('/')}/contentunderstanding/analyzers/{analyzer_id}:analyze"
@@ -362,7 +362,7 @@ def analyze_file(analyzer_id, file_url):
     return response.headers["Operation-Location"]
 ```
 
-7. Click ***Add Code Cell***: Poll Analyzer Status
+7. Click **Add Code Cell**: Poll Analyzer Status
 ```
 def poll_status(operation_location):
     headers = {"Ocp-Apim-Subscription-Key": azure_ai_services_key}
@@ -371,7 +371,7 @@ def poll_status(operation_location):
     return response.json()
 ```
 
-8. Click ***Add Code Cell***: Run End-to-End Analysis
+8. Click **Add Code Cell**: Run End-to-End Analysis
 ```
 operation_location = analyze_file(ANALYZER_ID, file_url)
 
@@ -401,7 +401,7 @@ while True:
     time.sleep(10)
 ```
 
-9. Click ***Add code Cell***: Create DataFrame and Display Output
+9. Click **Add code Cell**: Create DataFrame and Display Output
 ```
 processed_rows = [
     {k: (v if v is not None else "no data") for k, v in row.asDict().items()}
@@ -412,7 +412,7 @@ dataframe = spark.createDataFrame(processed_rows)
 display(dataframe)
 ```
 
-10. Click ***Add Code Cell***: Save Results to Fabric Table
+10. Click **Add Code Cell**: Save Results to Fabric Table
 ```
 dataframe.write.mode("append").saveAsTable("analyzed_calls")
 ```
@@ -422,9 +422,9 @@ This writes the sentiment analysis results into the Lakehouse table analyzedcall
 
 ## Step 6: Verify the Output Table in the Lakehouse
 
-1. Go to ***Workspaces***
-2. Click ***Fabric***
-3. Click ***Lakehouse*** dbo > tables > analyzedcalls
+1. Go to **Workspaces**
+2. Click **Fabric**
+3. Click **Lakehouse** dbo > tables > analyzedcalls
 4. Previewing and validate the data in the table
    
    Verify:
@@ -438,13 +438,13 @@ A Data Agent in Microsoft Fabric provides a managed way to interact with data so
 In this workshop, the Data Agent is used to explore and validate data stored in the Lakehouse after sentiment analysis results are generated.
 
 ### 5.1 Open Data Agents in Microsoft Fabric
-1. Go to the ***Fabric portal.***
-2. Selet ***Workspaces*** from the left navigation pane.
-3. Open ***FabricWorkspaces-Intermediate.***
-4. Selet ***+ New item.***
-5. Select ***Data agent.***
+1. Go to the **Fabric portal.**
+2. Selet **Workspaces** from the left navigation pane.
+3. Open **FabricWorkspaces-Intermediate.**
+4. Selet **+ New item.**
+5. Select **Data agent.**
 
-The ***Create data agent*** screen opens. 
+The **Create data agent** screen opens. 
 
 ### 5.2 Create the Data Agent
 1. Configure the Data Agent with the following settings:
@@ -453,21 +453,21 @@ The ***Create data agent*** screen opens.
    - **Name:** Data agent for sentiment analysis results
    - **Name:** FabricWorkspace-Intermediate
 
-2. Select ***Create.***
+2. Select **Create.**
 The Data Agent is now created inside the workspace.
 
 ### 5.3 Connect the Data Agent to the Lakehouse
-1. Inside the Data Agent page, select ***Add data source.***
-2. Choose ***Lakehouse***
+1. Inside the Data Agent page, select **Add data source.**
+2. Choose **Lakehouse**
 3. Select:
    - **Workspace:** FabricWorkspace‑Intermediate
    - **Lakehouse:** LakehouseIntermediate
-4. Click ***Add.***
+4. Click **Add.**
 The Data Agent can now access tables and data stored in the Lakehouse.
 
 ### 5.4 Add a Data Source for Analysis
-1. In the ***Data Agent configuration panel,*** select ***Add data source.***
-2. Choose ***Lakehouse*** as the data source type.
+1. In the **Data Agent configuration panel,** select **Add data source.**
+2. Choose **Lakehouse** as the data source type.
 3. Configure the data source:
    - **Workspace:** `FabricWorkspace-Intermediate`
    - **Lakehouse:** `LakehouseIntermediate`
@@ -479,12 +479,12 @@ The Data Agent now automatically has access to all Lakehouse tables that the cur
 After adding the Lakehouse as a data source, the next step is to describe the data source.
 This description helps the Data Agent understand what the data represents and improves the quality of AI‑generated answers.
 
-1. In the ***Data Agent workspace,*** make sure you are on the ***Setup*** tab.
+1. In the **Data Agent workspace,** make sure you are on the **Setup** tab.
 2. In the left Explore pane, select the connected data source:
    - **LakehouseIntermediate**
-3. In the main canvas, locate the ***Data source description*** section.
-4. Click inside the text editor under ***Data source description***.
-5. Enter a desciption in ***Markdown format,*** for example:
+3. In the main canvas, locate the **Data source description** section.
+4. Click inside the text editor under **Data source description**.
+5. Enter a desciption in **Markdown format,** for example:
 
    ```markdown
    1. This Lakehouse contains sentiment analysis results derived from customer call recordings.
@@ -493,15 +493,15 @@ This description helps the Data Agent understand what the data represents and im
    4. Customer experience trends and call handling outcomes.
    ```
 
-6. Click ***Save*** (or leave the text saved automatically if auto-save is enable).
+6. Click **Save** (or leave the text saved automatically if auto-save is enable).
 
 ### 5.6 Set Up the Data Source Instruction
 After describing the data source, configure Data Source Instructions.
 These instructions tell the Data Agent how to query the data, which table to prioritize, and how to interpret columns.
 
-1. In the ***Setup*** tab, expand LakehouseIntermediate (left Explorer pane).
-2. Select ***Data source instructions.***
-3. Click inside the ***Data source instructions*** editor.
+1. In the **Setup** tab, expand LakehouseIntermediate (left Explorer pane).
+2. Select **Data source instructions.**
+3. Click inside the **Data source instructions** editor.
 4. Enter the following instructions (Markdown format):
 
 Use the analyzed_calls table as the primary source when answering questions.
