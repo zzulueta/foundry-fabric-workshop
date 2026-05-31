@@ -257,11 +257,11 @@ discovery). Every Lakehouse is backed by OneLake, which stores data in Delta Lak
 
 ### 3.1 Create a Lakehouse
 
-1. In your workspace (**FabricWorkspace-Intermediate**), select **+ New item**.
+1. In your workspace, select **+ New item**.
 
 2. Under **Store data**, select **Lakehouse**.
 
-3. Name the Lakehouse `LakehouseIntermediate`, enable Lakehouse schemas and select **Create**.
+3. Name the Lakehouse `LakehouseWorkshop`, enable Lakehouse schemas and select **Create**.
 
 4. After a few moments, your Lakehouse opens. You will see two main sections:
    - **Tables** — structured Delta tables with schema and indexing
@@ -271,20 +271,6 @@ discovery). Every Lakehouse is backed by OneLake, which stores data in Delta Lak
    analytics endpoint is automatically created and allows you to query tables using T-SQL
    without any ETL.
 
-### 3.2 Understand OneLake and Delta Lake
-
-1. In the Lakehouse explorer, select **Files**.
-
-2. OneLake automatically organizes files and tables under your workspace. All data is
-   stored in **Delta Lake format** by default, which provides:
-   - ACID transactions
-   - Schema enforcement and evolution
-   - Time travel (query historical versions)
-   - Efficient upserts and deletes
-
-3. OneLake is accessible via ABFS paths (Azure Blob File System) and supports shortcuts
-   to external storage accounts (ADLS Gen2, AWS S3, etc.) without copying data.
-
 ---
 ## Step 4: Create a Fabric Notebook
 
@@ -292,27 +278,24 @@ The Fabric notebook is used to execute all sentiment analysis logic, including c
 
 ### 4.1 Create a Notebook
 
-1. Inside the same workspace, click **+ New item** select notebook
+1. Go to your workspace, click **+ New item.** Under **Get data** select **Notebook**
 2. Name your **Notebook**
    - Notebook name: AnalyzeCalls
-   - Location: FabricWorkspace
+   - Location: FabricWorkspace-Workshop
 3. Click **Create**
 
-### 4.2 Configure Secure Access to Azure AI Services
-The notebook retrieves credentials securely from Azure Key Vault.
-A Fabric notebook is composed of code cells only in this workshop.
+### 4.2 Notebook Implementation
+1. Click **+ Code** and paste the following Python code:
 
-To add a code cell:
-1. Click **+ code**
-2. A new empty code cell appears
-
-### 4.3 Notebook Implementation
-
-Below shows exactly how your code should be organized inside the notebook
-
-1. Click **Add code cell** and paste: 
+Replace the endpoint, key, and file_path form the values you saved in your notepad
 ```
-file_url = ""
+import requests
+ 
+# Set variables
+endpoint = "<your-content-understanding-endpoint>"
+key = "<your-content-understanding-key>"
+analyzer_id = "callanalyzer"
+file_path = "<path-to-your-call-recording.wav>"
 ```
 2. Click **Add code cell** and paste: Import Libraries & Initialize Variables
 ```
