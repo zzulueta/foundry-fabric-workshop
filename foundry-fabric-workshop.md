@@ -14,7 +14,7 @@
 3. Click **Create**
 4. Configure the resource:
    - **Subscription:** Select your subscription
-   - **Resource group:** `rg-documents`
+   - **Resource group(create new):** rg-documents`
    - **Name:** `ai-content-<yourname>` (must be globally unique)
    - **Region:** `Australia East`
    - **Default project name:** project-cu
