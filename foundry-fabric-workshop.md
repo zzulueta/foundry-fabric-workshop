@@ -5,6 +5,32 @@
 
 # Analyzing data with Microsoft Fabric and Azure Content Understanding
 
+**Introduction**
+In this hands-on workshop, you'll build an end-to-end data analytics solution for analyzing customer service call recordings using Microsoft Azure and Fabric technologies.
+
+**Learning Objectives:**
+By completing this lab, you will:
+
+Use Microsoft Foundry's Content Understanding to automatically extract insights from audio files (customer names, agent names, sentiment, resolution status, etc.)
+Provision and configure a Microsoft Fabric workspace with OneLake storage
+Build a Fabric notebook to automate the submission and processing of call recordings through the Content Understanding API
+Create a Data Agent to interactively query and explore analysis results using natural language
+Design a Power BI report to visualize key call center metrics and trends
+
+**Lab Overview:**
+This workshop simulates a real-world scenario where a contact center needs to analyze large volumes of call recordings to understand customer satisfaction, agent performance, and common issues. You'll orchestrate multiple Azure and Fabric services to build an intelligent analytics pipeline that transforms raw audio data into actionable business insights.
+
+**Technologies Used:**
+- Microsoft Foundry (Content Understanding) for AI-powered content extraction
+- Azure Blob Storage for scalable data storage
+- Microsoft Fabric Lakehouse for unified data analytics
+- Fabric Notebooks for data processing automation
+- Data Agents for conversational data exploration
+- Power BI for interactive reporting
+
+**Estimated Time:** 2-3 hours
+
+
 ## Step 1: Set Up Content Understanding for Audio Analysis
 
 ### 1.1 Create a Microsoft Foundry Resource (for Content Understanding)
