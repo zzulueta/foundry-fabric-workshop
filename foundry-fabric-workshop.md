@@ -27,32 +27,39 @@
    - **Foundry > API endpoint** URL
 
 ### 1.2 Create Storage Account
-The Azure Storage account is used to store call recording files and to trigger the Fabric pipeline when new files are uploaded.
 Azure Blob Storage provides scalable, cost‑effective storage for unstructured data such as audio files.
 
 1. In the **Azure portal**, use the **top search bar**
 2. Type **Storage accounts** and select **Storage accounts.**
-4. Select **+ create**
-5. Configure the storage account with the following settings:
+3. Select **+ Create**
+4. Configure the storage account with the following settings:
    - **Subscription:** Select your Azure subscription
-   - **Resource group name:** rg-documents
-   - **Storage account name:** ai-content-<yourname> (must be globally unique, lowercase letters and numbers only)
-   - **Storage account name:** Australia East
+   - **Resource group name:** `rg-documents`
+   - **Storage account name:** `aistr<yourname>` (must be globally unique, lowercase letters and numbers only)
+   - **Storage account name:** `Australia East`
    - **Performance:** Standard
    - **Redundancy:** Locally-redundant storafe (LRS)
 
-6. Leave ramaining options as default
-7. Select **Review + Create**
-8. Select **Create.**
-Wait for deployment to complete, then select **Go to resource.**
+5. Leave remaining options as default
+6. Select **Review + Create**
+7. Select **Create.** Wait for deployment to complete, then select **Go to resource.**
+8. In the left navigation bar, go to **Data storage > Containers**
+9. Click **Add Container**
+   - Enter Name: `callrecordings` 
+   - Click **Create**
+10. Select the **callrecordings** container
+11. Select **Upload,** then select **browse for files**
+12. Upload the Call Recordings from your local drive.
+   > Note: You can download the recordings from the callrecordings folder of this repository.
+13. Then select **Upload.** Wait for all the recordings to be uploaded
 
 ### 1.3 Access Content Understanding Studio
 1. Navigate to [Content Understanding Studio](https://contentunderstanding.ai.azure.com/)
 2. Sign in with your Azure account credentials
-3. Select **Explore Content Understanding**
+3. Select **Get started with Content Understanding**
 
 ### 1.4 Select Your Resource
-1. Click on the settings icon near your profile icon in the top right
+1. Click on the settings icon (cog icon) near your profile icon in the top right
 2. Select **Add resource**
 3. Configure your resource:
    - **Subscription:** Select your subscription
@@ -64,7 +71,7 @@ Wait for deployment to complete, then select **Go to resource.**
 5. Verify that models are deployed successfully for the selected resource
 
 ### 1.5 Create a New Content Understanding Project
-1. Select **Build**
+1. Select **Build** in the navigation bar
 2. Click **+ Create**
 3. Configure the project:
    - **Project name:** `call-center-analysis`
@@ -74,14 +81,14 @@ Wait for deployment to complete, then select **Go to resource.**
    - **Connected resource:** Select `ai-content-<yourname>`
    - **Subscription:** Select your subscription
    - **Resource Group:** Select `rg-documents`
-   - **Storage Account:** Select `stdocumentai<yourname>`
+   - **Storage Account:** Select `aistr<yourname>`
    - **Blob Container:** Select `call-recordings`
    - **Model for analysis:** Select the default model
 5. Click **Create**
 
 ### 1.6 Upload Call Recordings
 1. In your new project, click **Browse for files**
-2. Upload one of the call recordings from the `Recordings` folder
+2. Upload one of the call recordings from your local drive
 3. Select Audio Analysis
 4. Click **Save**
 
@@ -89,7 +96,7 @@ Wait for deployment to complete, then select **Go to resource.**
 You'll now define what information to extract from the call recordings.
 
 1. In your project, navigate to **Schema**
-2. Click **+ Add field** to create each extraction field
+2. Click **+ Add new field** to create each extraction field
 3. Add the following fields:
 
    - **Field name:** `CustomerName`
@@ -112,7 +119,7 @@ You'll now define what information to extract from the call recordings.
      - **Type:** String
      - **Method:** Classify
      - **Categories:**
-         - Add category: 
+         - Select + **Add category:** then enter the following names and description;
             - Category Name: Resolved 
             - Category Description: The customer's issue was resolved during the call
             - Category Name: Unresolved
@@ -131,7 +138,7 @@ You'll now define what information to extract from the call recordings.
      - **Type:** String
      - **Method:** Classify
        - **Categories:**
-          - Add category: 
+          - Select **Add category:** then enter the following names and description;
                - Category Name: Positive 
                - Category Description: The customer expresses positive sentiment during the call
                - Category Name: Neutral
