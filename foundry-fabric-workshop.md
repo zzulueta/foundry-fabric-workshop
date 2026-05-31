@@ -477,7 +477,7 @@ Click the play button to run the cell. Wait for the cell to complete approximate
 ## Step 5: Create a Data Agent
 
 A Data Agent in Microsoft Fabric provides a managed way to interact with data sources using natural language and AI‑assisted querying.
-In this workshop, the Data Agent is used to explore and validate data stored in the Lakehouse after sentiment analysis results are generated.
+In this step, the Data Agent is used to explore and validate data stored in the Lakehouse after call analysis results are generated.
 
 ### 5.1 Create Data Agents in Microsoft Fabric
 1. Select **Workspaces** from the left navigation pane.
@@ -503,15 +503,13 @@ The Data Agent now automatically has access to all Lakehouse tables that the cur
 ### 5.4 Set Up the Data Agent
 1. In the Setup tab under the Explorer pane select **Agent instruction**
 2. Enter the following under the Agent instructions:
-
    ```markdown
    You are an AI agent that analyzes customer call recordings.
    ```
-
 3. Select **Data source instructions** 
 4. Enter the following under **Data source description**:
    ```
-   The analyze_call table contains the call recordings analysis
+   The analyzed_calls table contains the call recordings analysis
    ```
 5. Enter the following under **Data source instructions:**
    ```
@@ -524,29 +522,29 @@ The Data Agent now automatically has access to all Lakehouse tables that the cur
    ```
 
 ### 5.5 Validate the Data Agent
-1. In the Data Agent chat input box, enter a sample question such as:
+1. In the Data Agent chat input box, enter a sample question such as any of the following:
    - `How many calls have we received so far?`
    - `How many calls have negative sentiment?`
    - `What is the nature of the calls received by Ava`
 2. Submit the question for each question.
 
 ### 5.6 Improving Agent Performance with Example Queries
-1. For each the replies you have received, look for the Expand response button.
-2. Select the **Expand response** and go to the **Steps completed** tab.
-3. Click the drop down arrow to see the SQL query used to answer your question.
+1. For each the reply you have received, look for the Expand response button at the bottom of the response.
+2. Select **Expand response** and go to the **Steps completed** tab.
+3. Click the drop down arrow to see the SQL query used to generate the response.
 4. Copy this SQL query along with the question you asked and save it in a Notepad.
 5. Go back to the Setup tab under the Explorer pane and select **Example queries**
 6. Click **Add example**
-7. Copy and paste the respective Question and SQL query pairs.
-8. Do this for every question you have asked.
-9. Select Clear chat and ask the same questions again.
+7. Copy and paste the respective Question and SQL query pair
+8. Do this for every question you have asked
+9. Select Clear chat and ask the same questions again to see the improved responses from the Data Agent.
+> **Note:** The Data Agent uses the example queries to better understand how to translate natural language questions into SQL queries against the Lakehouse. By providing examples of questions and their corresponding SQL, you are effectively teaching the agent how to query the data more accurately.
 
 ### 5.7 Publish your Data Agent
 1. Click **Publish** in the menu bar
 2. Under the description enter the following:
    ```
-   This agent analyzes customer calls.
-   
+   This agent analyzes customer calls. It can answer questions about the calls, such as how many calls have negative sentiment, or what is the nature of the calls received by a specific agent.
    ```
 3. Select publish
 
