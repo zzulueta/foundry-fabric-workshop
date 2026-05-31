@@ -8,13 +8,13 @@
 ## Step 1: Set Up Content Understanding for Audio Analysis
 
 ### 1.1 Create a Microsoft Foundry Resource (for Content Understanding)
-1. Go to https://portal.azure.com click **Create a resource**.
+1. Go to https://portal.azure.com , then click **Create a resource**.
 
 2. Search for **Microsoft Foundry** and select it
 3. Click **Create**
 4. Configure the resource:
    - **Subscription:** Select your subscription
-   - **Resource group(create new):** rg-documents`
+   - **Resource group (create new):** `rg-documents`
    - **Name:** `ai-content-<yourname>` (must be globally unique)
    - **Region:** `Australia East`
    - **Default project name:** project-cu
@@ -36,9 +36,9 @@ Azure Blob Storage provides scalable, cost‑effective storage for unstructured 
    - **Subscription:** Select your Azure subscription
    - **Resource group name:** `rg-documents`
    - **Storage account name:** `aistr<yourname>` (must be globally unique, lowercase letters and numbers only)
-   - **Storage account name:** `Australia East`
+   - **Region** `Australia East`
    - **Performance:** Standard
-   - **Redundancy:** Locally-redundant storafe (LRS)
+   - **Redundancy:** Locally-redundant storage (LRS)
 
 5. Leave remaining options as default
 6. Select **Review + Create**
@@ -84,7 +84,7 @@ Azure Blob Storage provides scalable, cost‑effective storage for unstructured 
    - **Subscription:** Select your subscription
    - **Resource Group:** Select `rg-documents`
    - **Storage Account:** Select `aistr<yourname>`
-   - **Blob Container:** Select `call-recordings`
+   - **Blob Container:** Select `callrecordings`
    - **Model for analysis:** Select the default model
 5. Click **Create**
 
@@ -189,7 +189,7 @@ backed by a Fabric capacity (F SKU) to enable Fabric-specific features
 
 ### 2.1 Deploy a Fabric Capacity (F2) in Azure Portal
 
-Before creating a Fabric workspace, you need to provision a Fabric capacity in Azure
+Before creating a Fabric workspace, you need to provision a Fabric capacity in Azure.
 This capacity provides the compute resources for all Fabric workloads
 
 1. Sign in to the [Azure Portal](https://portal.azure.com)
@@ -290,7 +290,7 @@ The Fabric notebook is used to execute all sentiment analysis logic, including c
 ### 4.2 Notebook Implementation
 1. Click **+ Code** and paste the following Python code:
 
-Replace the endpoint, key, and file_path form the values you saved in your notepad
+Replace the endpoint, key, and file_path from the values you saved in your notepad
 ```
 import requests
 from datetime import datetime, timezone
@@ -408,7 +408,7 @@ while True:
             Callsummary=fields.get("CallSummary", {}).get("valueString"),
             Callresolution=fields.get("CallResolution", {}).get("valueString"),
             Productname=fields.get("ProductName", {}).get("valueString"),
-            Callsentiment=fields.get("CallSentiment", {}).get("valueString"),  # Note: Using CallSummary, may be a bug
+            Callsentiment=fields.get("CallSentiment", {}).get("valueString"), 
             DateTime=utc_time,
             File=file_path
         ))
@@ -462,7 +462,7 @@ Click the play button to run the cell. Wait for the cell to complete approximate
 2. Select your **Lakehouse** 
 3. Navigate to Tables then select the ellipsis (...) then click Refresh
 4. Expand the Tables > dbo > analyzed_calls table
-5.Verify:
+5. Verify:
    - Table exists
    - Columns are populated
    - Rows reflect analyzed calls
@@ -517,7 +517,7 @@ The Data Agent now automatically has access to all Lakehouse tables that the cur
    Customername contains the name of the customer calling.
    Callsummary contains a brief summary of what the call was about.
    Callsentiment identifies the overall sentiment of the call either positive, neutral, or negative.
-   Callresolution determines if the agent was able to resolve the customer issues either resolves, unresolved, or escalated.
+   Callresolution determines if the agent was able to resolve the customer issues either resolved, unresolved, or escalated.
    Productname identifies any product names mentioned during the call.
    ```
 
@@ -529,7 +529,7 @@ The Data Agent now automatically has access to all Lakehouse tables that the cur
 2. Submit the question for each question.
 
 ### 5.6 Improving Agent Performance with Example Queries
-1. For each the reply you have received, look for the Expand response button at the bottom of the response.
+1. For each reply you have received, look for the Expand response button at the bottom of the response.
 2. Select **Expand response** and go to the **Steps completed** tab.
 3. Click the drop down arrow to see the SQL query used to generate the response.
 4. Copy this SQL query along with the question you asked and save it in a Notepad.
@@ -592,7 +592,7 @@ The Data Agent now automatically has access to all Lakehouse tables that the cur
 3. Set the values to the call count measure
 4. Place the donut visual below the Call Count card
 
-### 6.3.3 Create an a Agent call column chart
+### 6.3.3 Create an Agent call column chart
 1. Select the Clustered column chart visual from the Visualizations pane
 2. Set the X-axis to Agent Name
 3. Set the Y-axis to the Call Count measure
@@ -615,7 +615,7 @@ Time to clean up your resources to save on cost.
 4. Scroll down and select **Remove this Workspace**
 5. Select **Delete** to confirm deletion
 
-### Step 7.2 Dlete your Fabric Capacity
+### Step 7.2 Delete your Fabric Capacity
 1. Go back to the **Azure portal**
 2. In the search pane above search for **Microsoft Fabric** and select **Microsoft Fabric** in the search result
 3. Select your Fabric Capacity
