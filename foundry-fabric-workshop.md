@@ -442,7 +442,7 @@ In this workshop, the Data Agent is used to explore and validate data stored in 
 2. Selet ***Workspaces*** from the left navigation pane.
 3. Open ***FabricWorkspaces-Intermediate.***
 4. Selet ***+ New item.***
-5. Under the ***AI & ML*** sestion, select ***Data agent.***
+5. Select ***Data agent.***
 
 The ***Create data agent*** screen opens. 
 
