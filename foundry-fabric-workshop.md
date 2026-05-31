@@ -27,7 +27,7 @@
    - **Foundry > API endpoint** URL
 
 ### 1.2 Create Storage Account
-Azure Blob Storage provides scalable, cost‑effective storage for unstructured data such as audio files.
+Azure Blob Storage provides scalable, cost‑effective storage for unstructured data such as audio files
 
 1. In the **Azure portal**, use the **top search bar**
 2. Type **Storage accounts** and select **Storage accounts.**
@@ -50,8 +50,10 @@ Azure Blob Storage provides scalable, cost‑effective storage for unstructured 
 10. Select the **callrecordings** container
 11. Select **Upload,** then select **browse for files**
 12. Upload the Call Recordings from your local drive.
-   > Note: You can download the recordings from the callrecordings folder of this repository.
+   > Note: You can download the recordings from the callrecordings folder of this repository
 13. Then select **Upload.** Wait for all the recordings to be uploaded
+14. Select the first recording and copy the URL into your Notepad
+15. Do the rest for the remaining call recordings. We will need those URLs later in the lab
 
 ### 1.3 Access Content Understanding Studio
 1. Navigate to [Content Understanding Studio](https://contentunderstanding.ai.azure.com/)
@@ -150,11 +152,11 @@ You'll now define what information to extract from the call recordings.
 4. Click **Save**
 
 ### 1.8 Process Audio Files and Review Results
-1. Click **Run analysis** at the upper left.
-2. Wait for the processing to complete. This may take several minutes depending on the length of the audio and the complexity of the analysis.
-3. Once processing is complete, you can review the extracted information for the call recording in the **Fields** tab.
+1. Click **Run analysis** at the upper left
+2. Wait for the processing to complete. This may take several minutes depending on the length of the audio and the complexity of the analysis
+3. Once processing is complete, you can review the extracted information for the call recording in the **Fields** tab
 4. Review each field's value
-5. Select the **Result** tab to see the structured JSON output of the analysis, which includes all extracted fields and their values.
+5. Select the **Result** tab to see the structured JSON output of the analysis, which includes all extracted fields and their values
 ---
 
 ### 1.9 Analyze Remaining Recordings
@@ -178,7 +180,7 @@ You'll now define what information to extract from the call recordings.
 
 Microsoft Fabric workspaces are the foundational containers for all Fabric items
 (Lakehouses, Warehouses, Notebooks, Semantic Models, Reports). A workspace must be
-backed by a Fabric capacity (F SKU) to enable Fabric-specific features.
+backed by a Fabric capacity (F SKU) to enable Fabric-specific features
 
 > **Design note:** Fabric capacities are billed based on compute usage (CU seconds),
 > not storage. OneLake storage is billed separately per GB stored. This lab uses an
@@ -187,35 +189,35 @@ backed by a Fabric capacity (F SKU) to enable Fabric-specific features.
 
 ### 2.1 Deploy a Fabric Capacity (F2) in Azure Portal
 
-Before creating a Fabric workspace, you need to provision a Fabric capacity in Azure. 
-This capacity provides the compute resources for all Fabric workloads.
+Before creating a Fabric workspace, you need to provision a Fabric capacity in Azure
+This capacity provides the compute resources for all Fabric workloads
 
-1. Sign in to the [Azure Portal](https://portal.azure.com).
+1. Sign in to the [Azure Portal](https://portal.azure.com)
 
 2. In the search bar at the top, type **Microsoft Fabric** and select **Microsoft Fabric** 
    from the results.
 
-3. Select **+ Create** to create a new Fabric capacity.
+3. Select **+ Create** to create a new Fabric capacity
 
 4. On the **Basics** tab, configure the following settings:
 
    | Setting | Value |
    | --- | --- |
    | Subscription | Select your Azure subscription |
-   | Resource group | Select **Create new** and type `rg-fabric-workshop` |
+   | Resource group | `rg-documents` |
    | Capacity name | Enter `fabriccapacityworkshop` |
-   | Region | Select a region close to your location (e.g., Australia East or West Europe) |
+   | Region | Australia East |
    | Size | Select **F2** (2 capacity units) |
 
    > **Note:** F2 is the smallest Fabric capacity SKU and is suitable for development 
-   > and learning scenarios. Production workloads typically require F4 or higher.
+   > and learning scenarios. Production workloads typically require F4 or higher
 
 5. Select **Review + create**.
 
 6. Review the configuration and estimated cost. Fabric capacities are billed per hour 
    while running.
 
-7. Select **Create** to deploy the capacity.
+7. Select **Create** to deploy the capacity
 
 8. Wait for the deployment to complete (typically 2-5 minutes). You can monitor progress 
    in the **Notifications** panel.
@@ -224,7 +226,7 @@ This capacity provides the compute resources for all Fabric workloads.
 
 > **Cost Management Tip:** Fabric capacities can be paused when not in use to avoid 
 > charges. To pause a capacity, navigate to the capacity resource in Azure Portal and 
-> select **Pause** from the toolbar. Remember to resume it before starting the lab.
+> select **Pause** from the toolbar. Remember to resume it before starting the lab
 
 ### 2.2 Create a Fabric Workspace
 
@@ -236,14 +238,14 @@ This capacity provides the compute resources for all Fabric workloads.
 
    | Setting | Value |
    | --- | --- |
-   | Name | `FabricWorkspace-Intermediate` |
-   | Description | `Intermediate lab for Lakehouse, Warehouse, and Direct Lake analytics` |
+   | Name | `FabricWorkspace-Workshop` |
+   | Description | `Foundry Fabric Workshop` |
    | Workspace type | **Fabric** |
    | Details | Select your **F2** capacity from the dropdown |
 
 4. Select **Apply** to create the workspace.
 
-5. You are now in your workspace. The workspace is empty and ready for Fabric items.
+5. You are now in your workspace. The workspace is empty and ready for Fabric items
 
 ---
 
