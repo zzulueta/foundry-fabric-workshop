@@ -300,7 +300,7 @@ import time
  
 # Set variables
 endpoint = "YOUR_API_ENDPOINT"
-key = "YOUR_API_KEY_HERE"
+key = "YOUR_API_KEY"
 analyzer_id = "callanalyzer"
 file_path = "YOUR_FILE_PATH"
 api_version = "2025-11-01"
@@ -446,7 +446,7 @@ dataframe.write.mode("append").saveAsTable("analyzed_calls")
 ```
 Click the play button to run the cell. Wait for the cell to complete approximately 10-20 seconds
 
-## Step 6: Verify the Output Table in the Lakehouse
+### 4.3 Verify the output table in the Lakehouse
 
 1. Go to **Workspaces**
 2. Click **Fabric**
