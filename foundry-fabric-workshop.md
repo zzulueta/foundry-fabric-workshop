@@ -431,3 +431,55 @@ This writes the sentiment analysis results into the Lakehouse table analyzedcall
    - Table exists
    - Columns are populated
    - Rows reflect analyzed calls
+
+## Step 5: Create a Data Agent
+
+A Data Agent in Microsoft Fabric provides a managed way to interact with data sources using natural language and AI‑assisted querying.
+In this workshop, the Data Agent is used to explore and validate data stored in the Lakehouse after sentiment analysis results are generated.
+
+### 5.1 Open Data Agents in Microsoft Fabric
+1. Go to the ***Fabric portal.***
+2. Selet ***Workspaces*** from the left navigation pane.
+3. Open ***FabricWorkspaces-Intermediate.***
+4. Selet ***+ New item.***
+5. Under the ***AI & ML*** sestion, select ***Data agent.***
+
+The ***Create data agent*** screen opens. 
+
+### 5.2 Create the Data Agent
+1. Configure the Data Agent with the following settings:
+
+   - **Name:** SentimentDataAgent
+   - **Name:** Data agent for sentiment analysis results
+   - **Name:** FabricWorkspace-Intermediate
+
+2. Select ***Create.***
+The Data Agent is now created inside the workspace.
+
+### 5.3 Connect the Data Agent to the Lakehouse
+1. Inside the Data Agent page, select ***Add data source.***
+2. Choose ***Lakehouse***
+3. Select:
+   - **Workspace:** FabricWorkspace‑Intermediate
+   - **Lakehouse:** LakehouseIntermediate
+4. Click ***Add.***
+The Data Agent can now access tables and data stored in the Lakehouse.
+
+### 5.4 Select Tables for Analysis
+1. In the Data Agent configuration panel, select ***Choose tables.***
+2. Check the table:
+   - `analyzed_calls` 
+3. Click ***Save***
+
+The sentiment analysis results are now available to the Data Agent.
+
+### 5.5 Validate the Data Agent
+1. In the Data Agent interface, locate the ***Ask a question*** input box.
+2. Enter a sample question, for exmaple:
+   - _"How many calls have negative sentiment?"_
+3. Submit the question. 
+
+The Data Agent returns AI‑generated answers based on the analyzed_calls table.
+
+
+
