@@ -26,12 +26,33 @@
    - **KEY 1** 
    - **Foundry > API endpoint** URL
 
-### 1.2 Access Content Understanding Studio
+### 1.2 Create Storage Account
+The Azure Storage account is used to store call recording files and to trigger the Fabric pipeline when new files are uploaded.
+Azure Blob Storage provides scalable, cost‑effective storage for unstructured data such as audio files.
+
+1. Go to https://portal.azure.com
+2. In the top search bar, type ***Storage accounts***
+3. Selet ***storage accounts***
+4. Click ***+ create***
+5. Configure the storage account with the following settings:
+   - **Subscription:** Select your Azure subscription
+   - **Resource group name:** rg-documents
+   - **Storage account name:** ai-content-<yourname> (must be globally unique, lowercase letters and numbers only)
+   - **Storage account name:** Australia East
+   - **Performance:** Standard
+   - **Redundancy:** Locally-redundant storafe (LRS)
+
+6. Leave ramaining options as default
+7. Click ***Review + Create***
+8. Click ***Create.***
+Wait for deployment to complete, then select Go to resource.
+
+### 1.3 Access Content Understanding Studio
 1. Navigate to [Content Understanding Studio](https://contentunderstanding.ai.azure.com/)
 2. Sign in with your Azure account credentials
 3. Select **Explore Content Understanding**
 
-### 1.3 Select Your Resource
+### 1.4 Select Your Resource
 1. Click on the settings icon near your profile icon in the top right
 2. Select **Add resource**
 3. Configure your resource:
@@ -43,7 +64,7 @@
 4. Click **Save** to confirm your resource selection
 5. Verify that models are deployed successfully for the selected resource
 
-### 1.4 Create a New Content Understanding Project
+### 1.5 Create a New Content Understanding Project
 1. Select **Build**
 2. Click **+ Create**
 3. Configure the project:
@@ -65,7 +86,7 @@
 3. Select Audio Analysis
 4. Click **Save**
 
-### 1.5 Define Schema for Extraction
+### 1.7 Define Schema for Extraction
 You'll now define what information to extract from the call recordings.
 
 1. In your project, navigate to **Schema**
@@ -122,7 +143,7 @@ You'll now define what information to extract from the call recordings.
 
 4. Click **Save**
 
-### 1.6 Process Audio Files and Review Results
+### 1.8 Process Audio Files and Review Results
 1. Click **Run analysis** at the upper left.
 2. Wait for the processing to complete. This may take several minutes depending on the length of the audio and the complexity of the analysis.
 3. Once processing is complete, you can review the extracted information for the call recording in the **Fields** tab.
@@ -130,12 +151,12 @@ You'll now define what information to extract from the call recordings.
 5. Select the **Result** tab to see the structured JSON output of the analysis, which includes all extracted fields and their values.
 ---
 
-### 1.7 Analyze Remaining Recordings
+### 1.9 Analyze Remaining Recordings
 1. Select **Browse for files** again to upload the next call recording from your local machine
 2. Click **Run analysis** 
 3. Review extracted information for each call and the JSON output.
 
-### 1.8 Build the Analyzer
+### 1.10 Build the Analyzer
 1. Select **Build analyzer** from the top beside **Run analysis**
 2. Configure the analyzer:
    - **Name:** `callanalyzer`
