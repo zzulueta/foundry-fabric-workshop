@@ -30,10 +30,9 @@
 The Azure Storage account is used to store call recording files and to trigger the Fabric pipeline when new files are uploaded.
 Azure Blob Storage provides scalable, cost‑effective storage for unstructured data such as audio files.
 
-1. Go to https://portal.azure.com
-2. In the top search bar, type ***Storage accounts***
-3. Selet ***storage accounts***
-4. Click ***+ create***
+1. In the ***Azure portal***, use the ***top search bar***
+2. Type ***Storage accounts*** and select ***Storage accounts.***
+4. Select ***+ create***
 5. Configure the storage account with the following settings:
    - **Subscription:** Select your Azure subscription
    - **Resource group name:** rg-documents
@@ -43,8 +42,8 @@ Azure Blob Storage provides scalable, cost‑effective storage for unstructured 
    - **Redundancy:** Locally-redundant storafe (LRS)
 
 6. Leave ramaining options as default
-7. Click ***Review + Create***
-8. Click ***Create.***
+7. Select ***Review + Create***
+8. Select ***Create.***
 Wait for deployment to complete, then select Go to resource.
 
 ### 1.3 Access Content Understanding Studio
