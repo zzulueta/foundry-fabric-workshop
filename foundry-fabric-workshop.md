@@ -454,6 +454,8 @@ dataframe.write.mode("append").saveAsTable("analyzed_calls")
 
 Click the play button to run the cell. Wait for the cell to complete approximately 10-20 seconds
 
+6. Run the Notebook with the other call recordings to populate more data in the Lakehouse
+
 ### 4.3 Verify the output table in the Lakehouse
 
 1. Go to **Workspaces** 
@@ -477,102 +479,74 @@ Click the play button to run the cell. Wait for the cell to complete approximate
 A Data Agent in Microsoft Fabric provides a managed way to interact with data sources using natural language and AI‑assisted querying.
 In this workshop, the Data Agent is used to explore and validate data stored in the Lakehouse after sentiment analysis results are generated.
 
-### 5.1 Open Data Agents in Microsoft Fabric
-1. Go to the **Fabric portal.**
-2. Selet **Workspaces** from the left navigation pane.
-3. Open **FabricWorkspaces-Intermediate.**
-4. Selet **+ New item.**
-5. Select **Data agent.**
+### 5.1 Create Data Agents in Microsoft Fabric
+1. Select **Workspaces** from the left navigation pane.
+2. Open your Workspace
+3. Select **+ New item.**
+4. Select **Data agent.** under Analyze and train data
 
-The **Create data agent** screen opens. 
-
-### 5.2 Create the Data Agent
-1. Configure the Data Agent with the following settings:
-
-   - **Name:** SentimentDataAgent
-   - **Name:** Data agent for sentiment analysis results
-   - **Name:** FabricWorkspace-Intermediate
+### 5.2 Configure the Data Agent
+1. The **Create data agent** screen opens. Configure the Data Agent with the following settings:
+   - **Name:** calldataagent
 
 2. Select **Create.**
 The Data Agent is now created inside the workspace.
 
 ### 5.3 Connect the Data Agent to the Lakehouse
-1. Inside the Data Agent page, select **Add data source.**
-2. Choose **Lakehouse**
-3. Select:
-   - **Workspace:** FabricWorkspace‑Intermediate
-   - **Lakehouse:** LakehouseIntermediate
-4. Click **Add.**
-The Data Agent can now access tables and data stored in the Lakehouse.
-
-### 5.4 Add a Data Source for Analysis
-1. In the **Data Agent configuration panel,** select **Add data source.**
-2. Choose **Lakehouse** as the data source type.
-3. Configure the data source:
-   - **Workspace:** `FabricWorkspace-Intermediate`
-   - **Lakehouse:** `LakehouseIntermediate`
-4. Select ***Add**
+1. Under the Data tab inside the Explorer pane select **Add data > Data source**
+2. Select your **Lakehouse**
+3. Click **Add**
+4. Expand the dbo > Tables folder and select the analyzed_calls table
 
 The Data Agent now automatically has access to all Lakehouse tables that the current user has permission to read.
 
-### 5.5 Set Up the Data Source Description
-After adding the Lakehouse as a data source, the next step is to describe the data source.
-This description helps the Data Agent understand what the data represents and improves the quality of AI‑generated answers.
-
-1. In the **Data Agent workspace,** make sure you are on the **Setup** tab.
-2. In the left Explore pane, select the connected data source:
-   - **LakehouseIntermediate**
-3. In the main canvas, locate the **Data source description** section.
-4. Click inside the text editor under **Data source description**.
-5. Enter a desciption in **Markdown format,** for example:
+### 5.4 Set Up the Data Agent
+1. In the Setup tab under the Explorer pane select **Agent instruction**
+2. Enter the following under the Agent instructions:
 
    ```markdown
-   1. This Lakehouse contains sentiment analysis results derived from customer call recordings.
-   2. The primary table, analyzed_calls, includes customer names, agent names, product references,
-   3. Call sentiment, call resolution, emotional tone, and timestamps. This data is used to analyze
-   4. Customer experience trends and call handling outcomes.
+   You are an AI agent that analyzes customer call recordings.
    ```
 
-6. Click **Save** (or leave the text saved automatically if auto-save is enable).
-
-### 5.6 Set Up the Data Source Instruction
-After describing the data source, configure Data Source Instructions.
-These instructions tell the Data Agent how to query the data, which table to prioritize, and how to interpret columns.
-
-1. In the **Setup** tab, expand LakehouseIntermediate (left Explorer pane).
-2. Select **Data source instructions.**
-3. Click inside the **Data source instructions** editor.
-4. Enter the following instructions (Markdown format):
-
-Use the analyzed_calls table as the primary source when answering questions.
-
-Table purpose:
-- analyzed_calls contains sentiment analysis results from customer service call recordings.
-
-Important columns:
-- Customername: Name of the customer
-- Agentname: Name of the call center agent
-- Callsentiment: Overall sentiment of the call (Positive, Neutral, Negative)
-- Product: Product mentioned during the call
-- Resolution: Call outcome (Resolved, Unresolved, Escalated)
-- Emotion: Emotional tone detected in the call
-- Callcategory: Category of the call
-- DateTime: Timestamp of the call analysis
-
-   ```markdown
-   Query guidance:
-   - Use Callsentiment for sentiment distribution and trend analysis
-   - Use DateTime for time-based aggregation
-   - Use counts and percentages when summarizing results
-   - Aggregate data where appropriate instead of listing raw rows
+3. Select **Data source instructions** 
+4. Enter the following under **Data source description**:
+   ```
+   The analyze_call table contains the call recordings analysis
+   ```
+5. Enter the following under **Data source instructions:**
+   ```
+   Agentname contains the name of the agent taking the call.
+   Customername contains the name of the customer calling.
+   Callsummary contains a brief summary of what the call was about.
+   Callsentiment identifies the overall sentiment of the call either positive, neutral, or negative.
+   Callresolution determines if the agent was able to resolve the customer issues either resolves, unresolved, or escalated.
+   Productname identifies any product names mentioned during the call.
    ```
 
-### 5.7 Validate the Data Source Connection
+### 5.5 Validate the Data Agent
 1. In the Data Agent chat input box, enter a sample question such as:
-   - _**"Show the latest analyzed calls."**_
-   - _**"How many calls have negative sentiment?"**_
-2. Submit the question. 
+   - `How many calls have we received so far?`
+   - `How many calls have negative sentiment?`
+   - `What is the nature of the calls received by Ava`
+2. Submit the question for each question.
 
-The Data Agent queries the analyzed_calls table automatically and returns AI‑generated responses.
+### 5.6 Improving Agent Performance with Example Queries
+1. For each the replies you have received, look for the Expand response button.
+2. Select the **Expand response** and go to the **Steps completed** tab.
+3. Click the drop down arrow to see the SQL query used to answer your question.
+4. Copy this SQL query along with the question you asked and save it in a Notepad.
+5. Go back to the Setup tab under the Explorer pane and select **Example queries**
+6. Click **Add example**
+7. Copy and paste the respective Question and SQL query pairs.
+8. Do this for every question you have asked.
+9. Select Clear chat and ask the same questions again.
 
+### 5.7 Publish your Data Agent
+1. Click **Publish** in the menu bar
+2. Under the description enter the following:
+   ```
+   This agent analyzes customer calls.
+   
+   ```
+3. Select publish
 
