@@ -44,7 +44,7 @@ Azure Blob Storage provides scalable, cost‑effective storage for unstructured 
 6. Leave ramaining options as default
 7. Select ***Review + Create***
 8. Select ***Create.***
-Wait for deployment to complete, then select Go to resource.
+Wait for deployment to complete, then select ***Go to resource.***
 
 ### 1.3 Access Content Understanding Studio
 1. Navigate to [Content Understanding Studio](https://contentunderstanding.ai.azure.com/)
