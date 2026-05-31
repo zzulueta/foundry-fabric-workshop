@@ -26,46 +26,6 @@
    - **KEY 1** 
    - **Foundry > API endpoint** URL
 
-### 1.2 Create Azure Key Vault (Secure Secrets)
-
-Azure Key Vault is used to store AI credentials securely instead of hard‑coding them in notebooks.
-
-#### Create Key Vault
-1. In Azure Portal, search for ***Key Vault***
-2. Select ***Key Vaults***
-3. Click + ***Create***
-4. Configure the vault:
-   - Resource group: rg-security
-   - Vault name: keyvault
-   - Region: Same region as Fabric
-   - Pricing tier: Standard
-5. Click ***Review + ***Create***, then ***Create***
-
-#### Add Secrets to the Key Vault
-1. RIn the Key Vault left menu, select ***Secrets***.
-2. Click + ***Generate/Import***
-3. Create the first secret:
-   - Name: cukey
-   - Value: Azure AI API Key
-4. Click ***Create***
-5. Repeat + ***Generate/Import*** 
-   - Name: cuendendpoint
-   - Value: Azure AI Endpoint URL
-6. Click ***Create***
-
-#### Grant Fabric Access to Key Vault
-1. In the Key Vault left menu, select ***Access policies***
-2. Click + ***Create***.
-3. Under ***Secret permissions, select:
-   - Get
-   - List
-4. Click ***Next***
-5. Select principal:
-   - ***Microsoft Fabric/Workspace managed identity
-6. Click ***Create***
-
-Result: Microsoft Fabric can securely retrieve secrets at runtime.
-
 ### 1.3 Access Content Understanding Studio
 1. Navigate to [Content Understanding Studio](https://contentunderstanding.ai.azure.com/)
 2. Sign in with your Azure account credentials
