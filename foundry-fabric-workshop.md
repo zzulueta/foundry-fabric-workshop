@@ -465,21 +465,40 @@ The Data Agent is now created inside the workspace.
 4. Click ***Add.***
 The Data Agent can now access tables and data stored in the Lakehouse.
 
-### 5.4 Select Tables for Analysis
-1. In the Data Agent configuration panel, select ***Choose tables.***
-2. Check the table:
-   - `analyzed_calls` 
-3. Click ***Save***
+### 5.4 Add a Data Source for Analysis
+1. In the ***Data Agent configuration panel,*** select ***Add data source.***
+2. Choose ***Lakehouse*** as the data source type.
+3. Configure the data source:
+   - **Workspace:** `FabricWorkspace-Intermediate`
+   - **Lakehouse:** `LakehouseIntermediate`
+4. Select ***Add**
 
-The sentiment analysis results are now available to the Data Agent.
+The Data Agent now automatically has access to all Lakehouse tables that the current user has permission to read.
 
-### 5.5 Validate the Data Agent
-1. In the Data Agent interface, locate the ***Ask a question*** input box.
-2. Enter a sample question, for exmaple:
-   - _"How many calls have negative sentiment?"_
-3. Submit the question. 
+### 5.5 Set Up the Dat Source Description
+After adding the Lakehouse as a data source, the next step is to describe the data source.
+This description helps the Data Agent understand what the data represents and improves the quality of AI‑generated answers.
 
-The Data Agent returns AI‑generated answers based on the analyzed_calls table.
+1. In the ***Data Agent workspace,*** make you are on the ***Setup tab.
+2. In the left Explore pane, select the connected data source:
+   - **LakehouseIntermediate**
+3. In the main canvas, locate the ***Data source description*** section.
+4. Click inside the text editor under ***Data source description***.
+5. Enter a desciption in ***Markdown format,*** for example:
 
+`1. This Lakehouse contains sentiment analysis results derived from customer call recordings.`
+`2. The primary table, analyzed_calls, includes customer names, agent names, product references,`
+`3. Call sentiment, call resolution, emotional tone, and timestamps. This data is used to analyze`
+`4. Customer experience trends and call handling outcomes.`
+
+6. Click ***Save*** (or leave the text saved automatically if auto-save is enable).
+
+### 5.6 Validate the Data Source Connection
+1. In the Data Agent chat input box, enter a sample question such as:
+   - _**"Show the latest analyzed calls."**_
+   - _**"How many calls have negative sentiment?"**_
+2. Submit the question. 
+
+The Data Agent queries the analyzed_calls table automatically and returns AI‑generated responses.
 
 
