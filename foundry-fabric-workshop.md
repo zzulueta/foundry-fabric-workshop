@@ -579,25 +579,51 @@ The Data Agent now automatically has access to all Lakehouse tables that the cur
 
 ### 6.3 Build the Call Analysis Report
 1. Under the File tab, select **Create new report**
-2. Name the report `Call Analysis Report` and click **Create**
-3. In the report editor, go to the **Data** pane at the right side.
+
+#### 6.3.1 Build Card Visuals
+1. In the report editor, go to the **Data** pane at the right side
+2. Drag the Call Count measure to the report canvas. Then select the card visual from the Visualization pane
+3. Drag the Negative Sentiment Count measure to the report canvas. Then select the card visual from the Visualization pane
+4. Line up the two card visuals at the top of the report
+
+#### 6.3.2 Create a Call Count by Call Sentiment Donut Visual
+1. Select the Donut chart visual from the Visualizations pane
+2. Set the legend to Callsentiment
+3. Set the values to the call count measure
+4. Place the donut visual below the Call Count card
+
+### 6.3.3 Create an a Agent call column chart
+1. Select the Clustered column chart visual from the Visualizations pane
+2. Set the X-axis to Agent Name
+3. Set the Y-axis to the Call Count measure
+4. Place the visual beside the donut visual
+
+> This provides an overview on the visualizations that can be done with Power BI. More capabilities are available when the report is created using the Power BI desktop. 
+
+### 6.4 Save the Report
+1. Select File > Save as
+2. Name your report `Call Analysis Report`
+3. Click Save
+
+## Step 7: Clean up your Resources
+Time to clean up your resources to save on cost.
+
+### Step 7.1 Delete your Fabric Workspace
+1. Go to your Workspaces
+2. Select your Workspace
+3. In the upper right select **Workspace settings**
+4. Scroll down and select **Remove this Workspace**
+5. Select **Delete** to confirm deletion
+
+### Step 7.2 Dlete your Fabric Capacity
+1. Go back to the **Azure portal**
+2. In the search pane above search for **Microsoft Fabric** and select **Microsoft Fabric** in the search result
+3. Select your Fabric Capacity
+4. Select **Delete**
+5. Enter your Fabric Capacity name and select **Delete** to confirm deletion
 
 
-Create a Sentiment Distribution Visual
-1. In the **Data** pane, expand analyzed_calls
-2. Drag **Callsentiment** to the canvas
-3. Drag **Customername** (or any field) to **Values**
-4. Change aggregation to **Count**
-5. Select a **Column chart** or **Pie chart** visualization
 
-Create a Time-Based Sentiment Trend 
-1. Add a new visual
-2. Drag **DateTime** to the **X-axis**
-3. Drag **Callsentiment** to **Legend**
-4. Drag **Customername** to **Values** (Count)
-5. Select a **Line chart**
-6. Select **Save**
-7. Enter report name
 
 
 
