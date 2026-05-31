@@ -475,11 +475,11 @@ The Data Agent can now access tables and data stored in the Lakehouse.
 
 The Data Agent now automatically has access to all Lakehouse tables that the current user has permission to read.
 
-### 5.5 Set Up the Dat Source Description
+### 5.5 Set Up the Data Source Description
 After adding the Lakehouse as a data source, the next step is to describe the data source.
 This description helps the Data Agent understand what the data represents and improves the quality of AI‑generated answers.
 
-1. In the ***Data Agent workspace,*** make you are on the ***Setup tab.
+1. In the ***Data Agent workspace,*** make sure you are on the ***Setup*** tab.
 2. In the left Explore pane, select the connected data source:
    - **LakehouseIntermediate**
 3. In the main canvas, locate the ***Data source description*** section.
@@ -495,7 +495,39 @@ This description helps the Data Agent understand what the data represents and im
 
 6. Click ***Save*** (or leave the text saved automatically if auto-save is enable).
 
-### 5.6 Validate the Data Source Connection
+### 5.6 Set Up the Data Source Instruction
+After describing the data source, configure Data Source Instructions.
+These instructions tell the Data Agent how to query the data, which table to prioritize, and how to interpret columns.
+
+1. In the ***Setup*** tab, expand LakehouseIntermediate (left Explorer pane).
+2. Select ***Data source instructions.***
+3. Click inside the ***Data source instructions*** editor.
+4. Enter the following instructions (Markdown format):
+
+Use the analyzed_calls table as the primary source when answering questions.
+
+Table purpose:
+- analyzed_calls contains sentiment analysis results from customer service call recordings.
+
+Important columns:
+- Customername: Name of the customer
+- Agentname: Name of the call center agent
+- Callsentiment: Overall sentiment of the call (Positive, Neutral, Negative)
+- Product: Product mentioned during the call
+- Resolution: Call outcome (Resolved, Unresolved, Escalated)
+- Emotion: Emotional tone detected in the call
+- Callcategory: Category of the call
+- DateTime: Timestamp of the call analysis
+
+   ```markdown
+   Query guidance:
+   - Use Callsentiment for sentiment distribution and trend analysis
+   - Use DateTime for time-based aggregation
+   - Use counts and percentages when summarizing results
+   - Aggregate data where appropriate instead of listing raw rows
+   ```
+
+### 5.7 Validate the Data Source Connection
 1. In the Data Agent chat input box, enter a sample question such as:
    - _**"Show the latest analyzed calls."**_
    - _**"How many calls have negative sentiment?"**_
