@@ -548,31 +548,41 @@ The Data Agent now automatically has access to all Lakehouse tables that the cur
    ```
 3. Select publish
 
-## Step 6: Power BI Report from Sentiment Analysis Results
+## Step 6: Power BI Report for Result Visualization
 
-6.1 Create a Power BI Semantic Model
-1. In **Microsoft Fabric,** open **FabricWorkspace‑Intermediate.**
-2. Select **LakehouseIntermediate**
-3. In the Lakehouse ribbon, select **SQL analytics endpoint.**
-4. In the SQL analytics endpoint view, select **New semantic model.**
-
-Configure the semantic model:
-| Setting | Value |
+### 6.1 Creating a Semantic Model
+1. Go back to your workspace in the Fabric portal
+2. Select your Lakehouse
+3. In the top navigation, select **New semantic model**
+4. Configure the semantic model:
+   | Setting | Value |
    | --- | --- |
-   | Name | `SentimentSemanticModel` |
-   | Workspace | `FabricWorkspace-Intermediate` |
-5. Select analyzed_calls
-6. Select **Confirm**
+   | Name | `CallSemanticModel` |
+   | Workspace | `FabricWorkspace-Workshop` |
+   | Select or deselect tables for the semantic model | select `analyzed_calls` |
+5. Click **Confirm**
+6. Wait for the semantic model to be created. This may take a few moments.
 
-### 6.1 Open the Semantic Model
+### 6.2 Configure the Semantic Model
+1. In the Semantic Model editor, select the **analyzed_calls** table
+2. Under the Home tab, select **New measure**
+3. Create a measure with the following DAX formula to calculate the count of calls:
+   ```
+   Call Count = COUNT(analyzed_calls[Customername])
+   ```
+4. Click the checkmark to save the measure.
+5. Create another measure to calculate the count of negative sentiment calls:
+   ```
+   Negative Sentiment Count = CALCULATE(COUNT(analyzed_calls[Customername]), analyzed_calls[Callsentiment] = "Negative")
+   ```
+6. Click the checkmark to save the measure.
 
-1. Return to **FabricWorkspace-Intermediate**
-2. Locate **SentimentSemanticModel**
-3. Select the semantic model to open it
-4. With SentimentSemanticModel open, select **Open** tab in data pane
-5. The Power BI report designer opens in your browser
+### 6.3 Build the Call Analysis Report
+1. Under the File tab, select **Create new report**
+2. Name the report `Call Analysis Report` and click **Create**
+3. In the report editor, go to the **Data** pane at the right side.
 
-### 6.2 Build the Sentiment Analysis Report
+
 Create a Sentiment Distribution Visual
 1. In the **Data** pane, expand analyzed_calls
 2. Drag **Callsentiment** to the canvas
