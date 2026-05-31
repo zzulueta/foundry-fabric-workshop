@@ -486,10 +486,12 @@ This description helps the Data Agent understand what the data represents and im
 4. Click inside the text editor under ***Data source description***.
 5. Enter a desciption in ***Markdown format,*** for example:
 
-`1. This Lakehouse contains sentiment analysis results derived from customer call recordings.`
-`2. The primary table, analyzed_calls, includes customer names, agent names, product references,`
-`3. Call sentiment, call resolution, emotional tone, and timestamps. This data is used to analyze`
-`4. Customer experience trends and call handling outcomes.`
+   ```markdown
+   1. This Lakehouse contains sentiment analysis results derived from customer call recordings.
+   2. The primary table, analyzed_calls, includes customer names, agent names, product references,
+   3. Call sentiment, call resolution, emotional tone, and timestamps. This data is used to analyze
+   4. Customer experience trends and call handling outcomes.
+   ```
 
 6. Click ***Save*** (or leave the text saved automatically if auto-save is enable).
 
