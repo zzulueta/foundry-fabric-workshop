@@ -299,10 +299,10 @@ import time
  
  
 # Set variables
-endpoint = "https://ai-content-ziggyz.services.ai.azure.com/"
+endpoint = "YOUR_API_ENDPOINT"
 key = "YOUR_API_KEY_HERE"
 analyzer_id = "callanalyzer"
-file_path = "https://aistrziggy.blob.core.windows.net/callrecordings/callcenter1.mp3"
+file_path = "YOUR_FILE_PATH"
 api_version = "2025-11-01"
 utc_time = datetime.now(timezone.utc)
 processed_rows = []
