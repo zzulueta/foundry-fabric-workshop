@@ -380,6 +380,8 @@ def poll_status(operation_location):
     # Return the status information as a dictionary
     return response.json()
 ```
+ > The code above defines two functions: `analyze_file` to submit a file for analysis and `poll_status` to check the status of the analysis operation. The `analyze_file` function sends a POST request to the Content Understanding API with the file URL and returns an operation location URL for polling. The `poll_status` function sends a GET request to the operation location URL to retrieve the current status and results of the analysis.
+
  Click the play button to run the cell.
 
 3. Click **+ Code** and paste the following Python code:
@@ -420,6 +422,8 @@ while True:
     # Wait 10 seconds before checking the status again to avoid overwhelming the API
     time.sleep(10)
 ```
+> The code above submits the specified file for analysis and continuously polls the operation status until it completes. If the analysis succeeds, it extracts the relevant fields from the result and appends them as a Row object to the `processed_rows` list. If the analysis fails or is cancelled, it raises an exception. The polling interval is set to 10 seconds to balance timely updates with API rate limits.
+
 Click the play button to run the cell. Wait for the cell to complete approximately 30-60 seconds
 
 4. Click **+ Code** and paste the following Python code:
@@ -438,12 +442,16 @@ dataframe = spark.createDataFrame(processed_rows)
 display(dataframe)
  
 ```
+> The code above processes the list of Row objects by converting them to dictionaries and replacing any None values with the string "no data". This ensures that all fields have displayable values when shown in the DataFrame. Then, it creates a Spark DataFrame from the list of processed row dictionaries and displays it. The `display` function is commonly used in notebook environments to render the DataFrame in a readable format.
+
 Click the play button to run the cell.
 
 5. Click **+ Code** and paste the following Python code:
 ```
 dataframe.write.mode("append").saveAsTable("analyzed_calls")
 ```
+> The code above takes the Spark DataFrame containing the processed analysis results and writes it to a table named "analyzed_calls" in the Lakehouse. The `mode("append")` option ensures that if the table already exists, the new data will be added to it rather than overwriting existing data. This allows for incremental updates to the "analyzed_calls" table as new call recordings are processed.
+
 Click the play button to run the cell. Wait for the cell to complete approximately 10-20 seconds
 
 ### 4.3 Verify the output table in the Lakehouse
