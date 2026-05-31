@@ -569,8 +569,8 @@ Configure the semantic model:
 
 ### 6.1 Open the Semantic Model
 
-1. Return to **FabricWorkspace-Intermediate
-2. Locate **SentimentSemanticModel
+1. Return to **FabricWorkspace-Intermediate**
+2. Locate **SentimentSemanticModel**
 3. Select the semantic model to open it
 4. With SentimentSemanticModel open, select **Open** tab in data pane
 5. The Power BI report designer opens in your browser
@@ -590,7 +590,7 @@ Create a Time-Based Sentiment Trend
 4. Drag **Customername** to **Values** (Count)
 5. Select a **Line chart**
 6. Select **Save**
-7. Enter report name. 
+7. Enter report name
 
 
 
