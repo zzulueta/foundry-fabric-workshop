@@ -550,7 +550,7 @@ The Data Agent now automatically has access to all Lakehouse tables that the cur
    ```
 3. Select publish
 
-## Step 6 Power BI Report from Sentiment Analysis Results
+## Step 6: Power BI Report from Sentiment Analysis Results
 
 6.1 Create a Power BI Semantic Model
 1. In **Microsoft Fabric,** open **FabricWorkspace‑Intermediate.**
